@@ -1,4 +1,4 @@
-# Versuni Frontline PWA
+# Versuni Frontline PWA demo
 
 Production-ready **React + TypeScript + Vite** Progressive Web App for frontline manufacturing workers, powered by **Azure AI Foundry Agent Service**.
 
@@ -347,24 +347,24 @@ t('home.welcome'); // "Welcome"
 
 ## 📦 Tech Stack
 
-| Category           | Technology                         |
-| ------------------ | ---------------------------------- |
-| **Framework**      | React 18 + TypeScript              |
-| **Build**          | Vite 5                             |
-| **UI Components**  | Radix UI (shadcn/ui)               |
-| **Styling**        | Tailwind CSS                       |
-| **State**          | Zustand + TanStack Query           |
-| **Routing**        | React Router                       |
-| **Auth**           | MSAL Browser (Azure AD)            |
-| **HTTP**           | Axios + SSE/WebSocket              |
-| **Offline**        | IndexedDB (Dexie)                  |
-| **PWA**            | vite-plugin-pwa (Workbox)          |
-| **Charts**         | Recharts                           |
-| **i18n**           | i18next                            |
-| **Testing**        | Vitest + React Testing Library     |
-| **E2E**            | Playwright                         |
-| **Mocking**        | MSW (Mock Service Worker)          |
-| **Package Manager**| pnpm (or npm/yarn)                 |
+| Category            | Technology                     |
+| ------------------- | ------------------------------ |
+| **Framework**       | React 18 + TypeScript          |
+| **Build**           | Vite 5                         |
+| **UI Components**   | Radix UI (shadcn/ui)           |
+| **Styling**         | Tailwind CSS                   |
+| **State**           | Zustand + TanStack Query       |
+| **Routing**         | React Router                   |
+| **Auth**            | MSAL Browser (Azure AD)        |
+| **HTTP**            | Axios + SSE/WebSocket          |
+| **Offline**         | IndexedDB (Dexie)              |
+| **PWA**             | vite-plugin-pwa (Workbox)      |
+| **Charts**          | Recharts                       |
+| **i18n**            | i18next                        |
+| **Testing**         | Vitest + React Testing Library |
+| **E2E**             | Playwright                     |
+| **Mocking**         | MSW (Mock Service Worker)      |
+| **Package Manager** | pnpm (or npm/yarn)             |
 
 ## 📄 License
 
