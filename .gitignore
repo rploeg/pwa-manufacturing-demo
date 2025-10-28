@@ -1,0 +1,43 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.local
+.env.production
+
+# Editor directories
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Build
+build
+
+# PWA
+dev-dist
+sw.js
+sw.js.map
+workbox-*.js
+workbox-*.js.map
