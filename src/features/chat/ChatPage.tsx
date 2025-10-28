@@ -13,12 +13,12 @@ export function ChatPage() {
   const [messages, setMessages] = useState<AgentMessage[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  
+
   // Autonomous agent state
   const [showAutonomous, setShowAutonomous] = useState(false);
   const [autonomousActive, setAutonomousActive] = useState(false);
   const [autonomousEvents, setAutonomousEvents] = useState<AutonomousEvent[]>([]);
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const autonomousEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -26,7 +26,7 @@ export function ChatPage() {
   // Load available agents
   useEffect(() => {
     loadAgents();
-    
+
     // Subscribe to autonomous events
     const unsubscribe = autonomousService.subscribe((event) => {
       setAutonomousEvents((prev) => [...prev, event]);
@@ -104,9 +104,7 @@ export function ChatPage() {
 
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === assistantMessageId
-              ? { ...msg, content: msg.content + chunk.delta }
-              : msg
+            msg.id === assistantMessageId ? { ...msg, content: msg.content + chunk.delta } : msg
           )
         );
       }
@@ -155,10 +153,10 @@ export function ChatPage() {
   };
 
   const quickPrompts = [
+    'Trigger temperature anomaly on Filler-2',
     'What is the current OEE for Line-B?',
     'Show me open quality issues',
-    'List overdue maintenance tasks',
-    'Analyze temperature trends on Filler-3',
+    'Analyze recent changeover performance',
   ];
 
   const agentDescriptions: Record<string, string> = {
@@ -310,11 +308,15 @@ export function ChatPage() {
               <Card className="p-4 mb-4">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${autonomousActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+                    <div
+                      className={`w-3 h-3 rounded-full ${autonomousActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}
+                    />
                     <div>
                       <h3 className="font-semibold">Autonomous Monitoring System</h3>
                       <p className="text-xs text-muted-foreground">
-                        {autonomousActive ? 'Actively monitoring all production lines' : 'System idle'}
+                        {autonomousActive
+                          ? 'Actively monitoring all production lines'
+                          : 'System idle'}
                       </p>
                     </div>
                   </div>
@@ -388,8 +390,8 @@ export function ChatPage() {
                           event.severity === 'critical'
                             ? 'border-l-red-500 bg-red-50 dark:bg-red-950/20'
                             : event.severity === 'warning'
-                            ? 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-950/20'
-                            : 'border-l-blue-500 bg-blue-50 dark:bg-blue-950/20'
+                              ? 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-950/20'
+                              : 'border-l-blue-500 bg-blue-50 dark:bg-blue-950/20'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -400,14 +402,14 @@ export function ChatPage() {
                                   event.type === 'anomaly_detected'
                                     ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
                                     : event.type === 'agent_triggered'
-                                    ? 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
-                                    : event.type === 'maintenance_scheduled'
-                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                                    : event.type === 'line_stopped'
-                                    ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
-                                    : event.type === 'action_planned'
-                                    ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-                                    : 'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300'
+                                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
+                                      : event.type === 'maintenance_scheduled'
+                                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                                        : event.type === 'line_stopped'
+                                          ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                                          : event.type === 'action_planned'
+                                            ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                                            : 'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300'
                                 }`}
                               >
                                 {event.type.replace(/_/g, ' ').toUpperCase()}
@@ -429,7 +431,8 @@ export function ChatPage() {
                                     <span className="text-muted-foreground">Metric: </span>
                                     <span className="font-medium">
                                       {event.details.metric} = {event.details.value}{' '}
-                                      {event.details.threshold && `(threshold: ${event.details.threshold})`}
+                                      {event.details.threshold &&
+                                        `(threshold: ${event.details.threshold})`}
                                     </span>
                                   </div>
                                 )}
@@ -444,7 +447,9 @@ export function ChatPage() {
                                 {event.details.agentTriggered && (
                                   <div>
                                     <span className="text-muted-foreground">Agent: </span>
-                                    <span className="font-medium">{event.details.agentTriggered}</span>
+                                    <span className="font-medium">
+                                      {event.details.agentTriggered}
+                                    </span>
                                   </div>
                                 )}
                                 {event.details.actionTaken && (
@@ -456,7 +461,9 @@ export function ChatPage() {
                                 {event.details.workOrderId && (
                                   <div>
                                     <span className="text-muted-foreground">Work Order: </span>
-                                    <span className="font-medium font-mono">{event.details.workOrderId}</span>
+                                    <span className="font-medium font-mono">
+                                      {event.details.workOrderId}
+                                    </span>
                                   </div>
                                 )}
                               </div>
@@ -486,11 +493,7 @@ export function ChatPage() {
               disabled={isStreaming}
               className="flex-1"
             />
-            <Button
-              onClick={handleSend}
-              disabled={!input.trim() || isStreaming}
-              size="icon"
-            >
+            <Button onClick={handleSend} disabled={!input.trim() || isStreaming} size="icon">
               {isStreaming ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (

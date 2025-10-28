@@ -30,7 +30,7 @@ export function TwinPage() {
   const [liveMetrics, setLiveMetrics] = useState<LiveMetric[]>([]);
   const [alarms, setAlarms] = useState<Alarm[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Agent panel state
   const [showAgentPanel, setShowAgentPanel] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>('oee-analyst');
@@ -47,7 +47,7 @@ export function TwinPage() {
   useEffect(() => {
     if (selectedNode) {
       loadNodeDetails(selectedNode.id);
-      // Subscribe to live metrics  
+      // Subscribe to live metrics
       const cleanup = digitalTwin.subscribeLive(
         selectedNode.id,
         (metric: LiveMetric) => {
@@ -153,10 +153,10 @@ export function TwinPage() {
 
   // Agent functions
   const handleAskAgent = async (agentId: string, question?: string) => {
-    const nodeContext = selectedNode 
+    const nodeContext = selectedNode
       ? `Current node: ${selectedNode.name} (${selectedNode.type})\n` +
-        `Properties: ${selectedNode.properties.map(p => `${p.key}=${p.value}${p.unit||''}`).join(', ')}\n` +
-        `Live metrics: ${liveMetrics.map(m => `${m.key}=${m.value.toFixed(1)}${m.unit}`).join(', ')}\n` +
+        `Properties: ${selectedNode.properties.map((p) => `${p.key}=${p.value}${p.unit || ''}`).join(', ')}\n` +
+        `Live metrics: ${liveMetrics.map((m) => `${m.key}=${m.value.toFixed(1)}${m.unit}`).join(', ')}\n` +
         `Alarms: ${alarms.length} active`
       : '';
 
@@ -202,9 +202,7 @@ export function TwinPage() {
 
         setAgentMessages((prev) =>
           prev.map((msg) =>
-            msg.id === assistantMessageId
-              ? { ...msg, content: msg.content + chunk.delta }
-              : msg
+            msg.id === assistantMessageId ? { ...msg, content: msg.content + chunk.delta } : msg
           )
         );
       }
@@ -251,9 +249,7 @@ export function TwinPage() {
 
         <div className="p-2">
           {isLoading ? (
-            <div className="text-center py-8 text-muted-foreground">
-              Loading hierarchy...
-            </div>
+            <div className="text-center py-8 text-muted-foreground">Loading hierarchy...</div>
           ) : (
             twinHierarchy.map((node) => (
               <TwinTreeNode
@@ -318,8 +314,8 @@ export function TwinPage() {
                             alarm.severity === 'critical'
                               ? 'text-red-600'
                               : alarm.severity === 'warning'
-                              ? 'text-amber-600'
-                              : 'text-blue-600'
+                                ? 'text-amber-600'
+                                : 'text-blue-600'
                           }`}
                         >
                           {alarm.message}
@@ -378,15 +374,11 @@ export function TwinPage() {
                           {getMetricIcon(metric.key)}
                           <span className="text-xs">{metric.key}</span>
                         </div>
-                        <CheckCircle
-                          className={`w-4 h-4 ${getMetricColor(metric.status)}`}
-                        />
+                        <CheckCircle className={`w-4 h-4 ${getMetricColor(metric.status)}`} />
                       </div>
                       <div className="text-2xl font-bold">
                         {metric.value.toFixed(1)}
-                        <span className="text-sm text-muted-foreground ml-1">
-                          {metric.unit}
-                        </span>
+                        <span className="text-sm text-muted-foreground ml-1">{metric.unit}</span>
                       </div>
                       <div className="text-xs text-muted-foreground mt-1">
                         {new Date(metric.timestamp).toLocaleTimeString()}
@@ -410,41 +402,44 @@ export function TwinPage() {
                 <Button
                   variant="outline"
                   className="h-auto py-3 flex flex-col items-start gap-1"
-                  onClick={() => { setSelectedAgent('oee-analyst'); handleAskAgent('oee-analyst'); }}
+                  onClick={() => {
+                    setSelectedAgent('oee-analyst');
+                    handleAskAgent('oee-analyst');
+                  }}
                 >
                   <div className="flex items-center gap-2 font-semibold">
                     <TrendingUp className="w-4 h-4" />
                     OEE Analyst
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    Why is OEE low?
-                  </span>
+                  <span className="text-xs text-muted-foreground">Why is OEE low?</span>
                 </Button>
                 <Button
                   variant="outline"
                   className="h-auto py-3 flex flex-col items-start gap-1"
-                  onClick={() => { setSelectedAgent('maintenance-planner'); handleAskAgent('maintenance-planner'); }}
+                  onClick={() => {
+                    setSelectedAgent('maintenance-planner');
+                    handleAskAgent('maintenance-planner');
+                  }}
                 >
                   <div className="flex items-center gap-2 font-semibold">
                     <AlertTriangle className="w-4 h-4" />
                     Maintenance Planner
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    Predictive maintenance
-                  </span>
+                  <span className="text-xs text-muted-foreground">Predictive maintenance</span>
                 </Button>
                 <Button
                   variant="outline"
                   className="h-auto py-3 flex flex-col items-start gap-1"
-                  onClick={() => { setSelectedAgent('downtime-detective'); handleAskAgent('downtime-detective'); }}
+                  onClick={() => {
+                    setSelectedAgent('downtime-detective');
+                    handleAskAgent('downtime-detective');
+                  }}
                 >
                   <div className="flex items-center gap-2 font-semibold">
                     <Activity className="w-4 h-4" />
                     Downtime Detective
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    Analyze downtime
-                  </span>
+                  <span className="text-xs text-muted-foreground">Analyze downtime</span>
                 </Button>
               </div>
             </Card>
@@ -459,11 +454,7 @@ export function TwinPage() {
                     {selectedAgent === 'maintenance-planner' && 'Maintenance Planner'}
                     {selectedAgent === 'downtime-detective' && 'Downtime Detective'}
                   </h3>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowAgentPanel(false)}
-                  >
+                  <Button variant="ghost" size="sm" onClick={() => setShowAgentPanel(false)}>
                     Close
                   </Button>
                 </div>
@@ -551,9 +542,7 @@ export function TwinPage() {
                       className="p-3 border rounded-lg text-left hover:bg-muted transition-colors"
                     >
                       <div className="font-medium">{child.name}</div>
-                      <div className="text-xs text-muted-foreground capitalize">
-                        {child.type}
-                      </div>
+                      <div className="text-xs text-muted-foreground capitalize">{child.type}</div>
                     </button>
                   ))}
                 </div>

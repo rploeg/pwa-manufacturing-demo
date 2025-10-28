@@ -46,23 +46,16 @@ export function ScenarioCard({ template, onStart }: ScenarioCardProps) {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-lg mb-1">{template.name}</h3>
-          <p className="text-sm text-muted-foreground mb-3">
-            {template.description}
-          </p>
+          <p className="text-sm text-muted-foreground mb-3">{template.description}</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                ~{template.estimatedDuration} min
+                <Clock className="w-4 h-4" />~{template.estimatedDuration} min
               </span>
               <span className="capitalize">{template.category}</span>
               <span>{template.steps.length} steps</span>
             </div>
-            <Button
-              onClick={() => onStart(template.id)}
-              size="sm"
-              className="gap-1"
-            >
+            <Button onClick={() => onStart(template.id)} size="sm" className="gap-1">
               Start
               <ChevronRight className="w-4 h-4" />
             </Button>

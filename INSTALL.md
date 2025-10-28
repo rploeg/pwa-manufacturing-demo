@@ -74,14 +74,17 @@ This project is **100% ARM64 compatible**:
 Once the app is running:
 
 ### Desktop (Chrome/Edge)
+
 1. Look for the install icon in the address bar
 2. Click "Install"
 
 ### Mobile (iOS)
+
 1. Open in Safari
 2. Tap Share → Add to Home Screen
 
 ### Mobile (Android)
+
 1. Open in Chrome
 2. Tap Menu → Add to Home Screen
 
@@ -95,14 +98,17 @@ Once the app is running:
 ## Troubleshooting
 
 ### Dependencies fail to install
+
 - Ensure Node.js ≥18 is installed
 - Try clearing cache: `pnpm store prune` or `npm cache clean --force`
 
 ### Service worker not registering
+
 - Service workers require HTTPS in production (or localhost in dev)
 - Check browser console for errors
 
 ### Auth not working
+
 - Verify Azure AD client ID and tenant ID
 - Check redirect URI matches Azure AD app registration
 - In development with mocks, auth is optional
@@ -110,6 +116,7 @@ Once the app is running:
 ## Support
 
 For issues or questions:
+
 - Check the main [README.md](README.md)
 - Review the Azure AD setup section
 - Check browser console for errors

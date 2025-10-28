@@ -13,11 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import type {
-  ScenarioTemplate,
-  ScenarioStep,
-  ScenarioStepResult,
-} from '@/data/types';
+import type { ScenarioTemplate, ScenarioStep, ScenarioStepResult } from '@/data/types';
 
 interface ScenarioRunnerProps {
   template: ScenarioTemplate;
@@ -41,10 +37,11 @@ export function ScenarioRunner({ template, onClose }: ScenarioRunnerProps) {
   const executeAgentStep = async (step: ScenarioStep): Promise<string> => {
     // Simulate agent execution with SSE streaming
     return new Promise((resolve) => {
-      setTimeout(() => {
-        // Mock agent responses based on step
-        const mockResponses: Record<string, string> = {
-          'step-2': `**OEE Analysis Results**
+      setTimeout(
+        () => {
+          // Mock agent responses based on step
+          const mockResponses: Record<string, string> = {
+            'step-2': `**OEE Analysis Results**
 
 Line-B Afternoon Shift Performance:
 - **OEE**: 76.2% (↓ 11.8% vs. baseline 88%)
@@ -53,7 +50,7 @@ Line-B Afternoon Shift Performance:
 - **Quality**: 93.5% (↓ 1.4%)
 
 **Primary Impact**: Availability loss due to unplanned downtime.`,
-          'step-3': `**Root Cause Analysis**
+            'step-3': `**Root Cause Analysis**
 
 Top 3 Contributing Factors:
 1. **Unplanned Downtime** (2h 15min)
@@ -69,7 +66,7 @@ Top 3 Contributing Factors:
    - Cosmetic damage on 3 units
 
 **Recommendation**: Preventive maintenance on Filler-3 sealing mechanism and conveyor alignment check.`,
-          'step-4': `**Maintenance Action Plan**
+            'step-4': `**Maintenance Action Plan**
 
 **Task 1: Filler-3 Seal Mechanism Inspection**
 - Priority: High
@@ -87,13 +84,14 @@ Top 3 Contributing Factors:
 - Priority: Medium
 - Duration: 30 minutes
 - Topic: Post-jam restart procedures`,
-        };
+          };
 
-        resolve(
-          mockResponses[step.id] ||
-            `Agent ${step.agentId} completed analysis successfully.`
-        );
-      }, 2000 + Math.random() * 1000);
+          resolve(
+            mockResponses[step.id] || `Agent ${step.agentId} completed analysis successfully.`
+          );
+        },
+        2000 + Math.random() * 1000
+      );
     });
   };
 
@@ -189,9 +187,7 @@ Top 3 Contributing Factors:
                   <Input
                     type="number"
                     value={(inputs[input.key] as number) || ''}
-                    onChange={(e) =>
-                      handleInputChange(input.key, parseInt(e.target.value))
-                    }
+                    onChange={(e) => handleInputChange(input.key, parseInt(e.target.value))}
                     placeholder={input.label}
                   />
                 )}
@@ -208,10 +204,7 @@ Top 3 Contributing Factors:
                       <label key={opt.value} className="flex items-center gap-2">
                         <input
                           type="checkbox"
-                          checked={
-                            (inputs[input.key] as string[])?.includes(opt.value) ||
-                            false
-                          }
+                          checked={(inputs[input.key] as string[])?.includes(opt.value) || false}
                           onChange={(e) => {
                             const current = (inputs[input.key] as string[]) || [];
                             if (e.target.checked) {
@@ -250,9 +243,7 @@ Top 3 Contributing Factors:
                 </div>
               </div>
             ) : (
-              <div className="text-muted-foreground">
-                Click "Next" to execute this agent step.
-              </div>
+              <div className="text-muted-foreground">Click "Next" to execute this agent step.</div>
             )}
           </div>
         );

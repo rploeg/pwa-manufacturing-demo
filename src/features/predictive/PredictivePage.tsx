@@ -46,10 +46,12 @@ const mockInsights: PredictiveInsight[] = [
     severity: 'critical',
     confidence: 94.2,
     title: 'Bearing Failure Predicted',
-    description: 'Vibration analysis indicates bearing degradation beyond normal operating parameters',
+    description:
+      'Vibration analysis indicates bearing degradation beyond normal operating parameters',
     prediction: 'Bearing failure expected within 48-72 hours if not addressed',
     timeToFailure: '48-72 hours',
-    recommendedAction: 'Schedule immediate bearing replacement. Order part P/N 67890. Estimated 3-hour maintenance window.',
+    recommendedAction:
+      'Schedule immediate bearing replacement. Order part P/N 67890. Estimated 3-hour maintenance window.',
     estimatedDowntime: '3 hours',
     costImpact: '$2,400 (planned) vs $15,000 (unplanned failure)',
     mlModel: 'Random Forest Classifier',
@@ -72,7 +74,8 @@ const mockInsights: PredictiveInsight[] = [
     description: 'Current draw increasing steadily over 14 days. Motor efficiency declining.',
     prediction: 'Motor winding degradation. Performance will drop 15% in next 30 days.',
     timeToFailure: '25-35 days',
-    recommendedAction: 'Schedule motor inspection during next planned maintenance window. Check windings and bearings.',
+    recommendedAction:
+      'Schedule motor inspection during next planned maintenance window. Check windings and bearings.',
     estimatedDowntime: '4 hours',
     costImpact: '$3,800 (preventive) vs $22,000 (emergency replacement)',
     mlModel: 'LSTM Neural Network',
@@ -92,10 +95,12 @@ const mockInsights: PredictiveInsight[] = [
     severity: 'low',
     confidence: 76.8,
     title: 'Belt Tension Anomaly Detected',
-    description: 'Belt tension showing irregular patterns. Not critical yet but trending outside normal range.',
+    description:
+      'Belt tension showing irregular patterns. Not critical yet but trending outside normal range.',
     prediction: 'Belt may require adjustment within 7-10 days to prevent uneven wear.',
     timeToFailure: '7-10 days',
-    recommendedAction: 'Add belt tension check to next routine inspection. Monitor daily until adjusted.',
+    recommendedAction:
+      'Add belt tension check to next routine inspection. Monitor daily until adjusted.',
     estimatedDowntime: '30 minutes',
     costImpact: '$150 (adjustment) vs $4,200 (belt replacement)',
     mlModel: 'Isolation Forest',
@@ -118,7 +123,8 @@ const mockInsights: PredictiveInsight[] = [
     description: 'Valve actuation time has increased 23% over baseline. Affecting fill accuracy.',
     prediction: 'Valve seal degradation. Will impact product quality if not serviced.',
     timeToFailure: '14-21 days',
-    recommendedAction: 'Replace valve seals during weekend maintenance. Recalibrate after replacement.',
+    recommendedAction:
+      'Replace valve seals during weekend maintenance. Recalibrate after replacement.',
     estimatedDowntime: '2 hours',
     costImpact: '$850 (seal replacement) vs $8,500 (valve replacement)',
     mlModel: 'Gradient Boosting',
@@ -156,36 +162,47 @@ export function PredictivePage() {
 
   const getSeverityColor = (severity: PredictiveInsight['severity']) => {
     switch (severity) {
-      case 'critical': return 'text-red-600 bg-red-100 border-red-300';
-      case 'high': return 'text-orange-600 bg-orange-100 border-orange-300';
-      case 'medium': return 'text-yellow-600 bg-yellow-100 border-yellow-300';
-      case 'low': return 'text-blue-600 bg-blue-100 border-blue-300';
+      case 'critical':
+        return 'text-red-600 bg-red-100 border-red-300';
+      case 'high':
+        return 'text-orange-600 bg-orange-100 border-orange-300';
+      case 'medium':
+        return 'text-yellow-600 bg-yellow-100 border-yellow-300';
+      case 'low':
+        return 'text-blue-600 bg-blue-100 border-blue-300';
     }
   };
 
   const getTypeIcon = (type: PredictiveInsight['type']) => {
     switch (type) {
-      case 'failure-prediction': return <AlertTriangle className="w-5 h-5" />;
-      case 'anomaly-detection': return <Activity className="w-5 h-5" />;
-      case 'degradation': return <TrendingUp className="w-5 h-5" />;
-      case 'optimization': return <Target className="w-5 h-5" />;
+      case 'failure-prediction':
+        return <AlertTriangle className="w-5 h-5" />;
+      case 'anomaly-detection':
+        return <Activity className="w-5 h-5" />;
+      case 'degradation':
+        return <TrendingUp className="w-5 h-5" />;
+      case 'optimization':
+        return <Target className="w-5 h-5" />;
     }
   };
 
   const getTypeName = (type: PredictiveInsight['type']) => {
     switch (type) {
-      case 'failure-prediction': return 'Failure Prediction';
-      case 'anomaly-detection': return 'Anomaly Detection';
-      case 'degradation': return 'Degradation Analysis';
-      case 'optimization': return 'Performance Optimization';
+      case 'failure-prediction':
+        return 'Failure Prediction';
+      case 'anomaly-detection':
+        return 'Anomaly Detection';
+      case 'degradation':
+        return 'Degradation Analysis';
+      case 'optimization':
+        return 'Performance Optimization';
     }
   };
 
-  const filteredInsights = filterSeverity === 'all' 
-    ? insights 
-    : insights.filter(i => i.severity === filterSeverity);
+  const filteredInsights =
+    filterSeverity === 'all' ? insights : insights.filter((i) => i.severity === filterSeverity);
 
-  const criticalCount = insights.filter(i => i.severity === 'critical').length;
+  const criticalCount = insights.filter((i) => i.severity === 'critical').length;
   const avgConfidence = insights.reduce((sum, i) => sum + i.confidence, 0) / insights.length;
   const totalCostAvoidance = insights.reduce((sum, i) => {
     const match = i.costImpact?.match(/\$([0-9,]+)/g);
@@ -280,9 +297,9 @@ export function PredictivePage() {
         {filteredInsights.map((insight) => (
           <Card
             key={insight.id}
-            className={`p-4 border-l-4 cursor-pointer hover:shadow-lg transition-shadow ${
-              getSeverityColor(insight.severity)
-            }`}
+            className={`p-4 border-l-4 cursor-pointer hover:shadow-lg transition-shadow ${getSeverityColor(
+              insight.severity
+            )}`}
             onClick={() => setSelectedInsight(insight)}
           >
             <div className="flex items-start justify-between">
@@ -294,7 +311,9 @@ export function PredictivePage() {
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold text-lg">{insight.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(insight.severity)}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(insight.severity)}`}
+                      >
                         {insight.severity.toUpperCase()}
                       </span>
                     </div>
@@ -353,7 +372,9 @@ export function PredictivePage() {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getSeverityColor(selectedInsight.severity)}`}>
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${getSeverityColor(selectedInsight.severity)}`}
+              >
                 {selectedInsight.severity.toUpperCase()}
               </span>
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-600">
@@ -383,9 +404,15 @@ export function PredictivePage() {
                       <div className="text-2xl font-bold">{metric.value}</div>
                       <div className="text-xs text-muted-foreground">{metric.unit}</div>
                       <div className="text-xs font-medium mt-1">{metric.name}</div>
-                      <div className={`text-xs mt-1 flex items-center justify-center gap-1 ${
-                        metric.trend === 'up' ? 'text-red-600' : metric.trend === 'down' ? 'text-green-600' : 'text-muted-foreground'
-                      }`}>
+                      <div
+                        className={`text-xs mt-1 flex items-center justify-center gap-1 ${
+                          metric.trend === 'up'
+                            ? 'text-red-600'
+                            : metric.trend === 'down'
+                              ? 'text-green-600'
+                              : 'text-muted-foreground'
+                        }`}
+                      >
                         {metric.trend === 'up' && '↑'}
                         {metric.trend === 'down' && '↓'}
                         {metric.trend === 'stable' && '→'}
@@ -404,7 +431,9 @@ export function PredictivePage() {
                   <Clock className="w-4 h-4" />
                   <span className="text-sm font-medium">Time to Failure</span>
                 </div>
-                <p className="text-lg font-semibold">{selectedInsight.timeToFailure || 'Unknown'}</p>
+                <p className="text-lg font-semibold">
+                  {selectedInsight.timeToFailure || 'Unknown'}
+                </p>
               </Card>
 
               <Card className="p-4">
@@ -412,7 +441,9 @@ export function PredictivePage() {
                   <Wrench className="w-4 h-4" />
                   <span className="text-sm font-medium">Estimated Downtime</span>
                 </div>
-                <p className="text-lg font-semibold">{selectedInsight.estimatedDowntime || 'N/A'}</p>
+                <p className="text-lg font-semibold">
+                  {selectedInsight.estimatedDowntime || 'N/A'}
+                </p>
               </Card>
 
               <Card className="p-4 col-span-2">
@@ -445,31 +476,24 @@ export function PredictivePage() {
                 </div>
                 <div className="text-right">
                   <div className="text-sm text-muted-foreground">Data Points</div>
-                  <p className="text-sm font-semibold">{selectedInsight.dataPoints.toLocaleString()}</p>
+                  <p className="text-sm font-semibold">
+                    {selectedInsight.dataPoints.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </Card>
 
             {/* Actions */}
             <div className="flex gap-3">
-              <Button 
-                className="flex-1" 
-                onClick={() => handleCreateWorkOrder(selectedInsight)}
-              >
+              <Button className="flex-1" onClick={() => handleCreateWorkOrder(selectedInsight)}>
                 <Calendar className="w-4 h-4 mr-2" />
                 Create Work Order
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => handleSnooze(selectedInsight)}
-              >
+              <Button variant="outline" onClick={() => handleSnooze(selectedInsight)}>
                 <Clock className="w-4 h-4 mr-2" />
                 Snooze 24h
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setSelectedInsight(null)}
-              >
+              <Button variant="outline" onClick={() => setSelectedInsight(null)}>
                 Dismiss
               </Button>
             </div>

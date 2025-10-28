@@ -21,7 +21,6 @@ export function KnowledgePage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(null);
   const [articles, setArticles] = useState<KnowledgeArticle[]>([]);
-  const [loading, setLoading] = useState(false);
 
   // Load articles
   useEffect(() => {
@@ -29,16 +28,13 @@ export function KnowledgePage() {
   }, [selectedCategory, searchQuery]);
 
   const loadArticles = async () => {
-    setLoading(true);
     try {
       const results = await knowledgeService.search(searchQuery, {
-        category: selectedCategory === 'all' ? undefined : selectedCategory as any,
+        category: selectedCategory === 'all' ? undefined : (selectedCategory as any),
       });
       setArticles(results);
     } catch (error) {
       console.error('Failed to load articles:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -205,9 +201,7 @@ export function KnowledgePage() {
               onClick={() => handleArticleView(article)}
             >
               <div className="flex items-start gap-4">
-                <div
-                  className={`p-2 rounded-lg ${getCategoryColor(article.category)}`}
-                >
+                <div className={`p-2 rounded-lg ${getCategoryColor(article.category)}`}>
                   {getCategoryIcon(article.category)}
                 </div>
                 <div className="flex-1">
@@ -215,8 +209,7 @@ export function KnowledgePage() {
                     <div>
                       <h3 className="font-semibold text-lg mb-1">{article.title}</h3>
                       <p className="text-sm text-muted-foreground">
-                        By {article.authorName} •{' '}
-                        {new Date(article.updatedAt).toLocaleDateString()}
+                        By {article.authorName} • {new Date(article.updatedAt).toLocaleDateString()}
                       </p>
                     </div>
                     <span
@@ -241,10 +234,7 @@ export function KnowledgePage() {
 
                   <div className="flex flex-wrap gap-1">
                     {article.tags.slice(0, 5).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 bg-muted rounded text-xs"
-                      >
+                      <span key={tag} className="px-2 py-0.5 bg-muted rounded text-xs">
                         {tag}
                       </span>
                     ))}
@@ -273,9 +263,7 @@ export function KnowledgePage() {
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>By {selectedArticle.authorName}</span>
                   <span>•</span>
-                  <span>
-                    Updated {new Date(selectedArticle.updatedAt).toLocaleDateString()}
-                  </span>
+                  <span>Updated {new Date(selectedArticle.updatedAt).toLocaleDateString()}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
                     <Eye className="w-4 h-4" />
@@ -283,11 +271,7 @@ export function KnowledgePage() {
                   </span>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSelectedArticle(null)}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setSelectedArticle(null)}>
                 Close
               </Button>
             </div>

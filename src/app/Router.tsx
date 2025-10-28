@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './Layout';
 import { HomePage } from '@/features/home/HomePage';
 import { ChatPage } from '@/features/chat/ChatPage';
-import { ScenariosPage } from '@/features/scenarios/ScenariosPage';
 import { TwinPage } from '@/features/twin/TwinPage';
 import { QualityPage } from '@/features/quality/QualityPage';
 import { MaintenancePage } from '@/features/maintenance/MaintenancePage';
@@ -10,6 +9,10 @@ import { PredictivePage } from '@/features/predictive/PredictivePage';
 import { HandoverPage } from '@/features/handover/HandoverPage';
 import { KnowledgePage } from '@/features/knowledge/KnowledgePage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
+import ChangeoverPage from '@/features/changeover/ChangeoverPage';
+import SafetyPage from '@/features/safety/SafetyPage';
+import OEECoachingPage from '@/features/oee-coaching/OEECoachingPage';
+import ProductionPlanningPage from '@/features/planning/ProductionPlanningPage';
 
 export function Router() {
   return (
@@ -20,8 +23,6 @@ export function Router() {
           <Route path="home" element={<HomePage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="chat/:conversationId" element={<ChatPage />} />
-          <Route path="scenarios" element={<ScenariosPage />} />
-          <Route path="scenarios/:scenarioId" element={<ScenariosPage />} />
           <Route path="twin" element={<TwinPage />} />
           <Route path="twin/:nodeId" element={<TwinPage />} />
           <Route path="quality" element={<QualityPage />} />
@@ -29,6 +30,10 @@ export function Router() {
           <Route path="predictive" element={<PredictivePage />} />
           <Route path="handover" element={<HandoverPage />} />
           <Route path="knowledge" element={<KnowledgePage />} />
+          <Route path="changeover" element={<ChangeoverPage />} />
+          <Route path="safety" element={<SafetyPage />} />
+          <Route path="oee-coaching" element={<OEECoachingPage />} />
+          <Route path="planning" element={<ProductionPlanningPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>

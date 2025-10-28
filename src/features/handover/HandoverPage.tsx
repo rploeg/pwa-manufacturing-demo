@@ -1,14 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import {
-  Mic,
-  Square,
-  Play,
-  Pause,
-  Trash2,
-  Send,
-  Loader2,
-  CheckCircle2,
-} from 'lucide-react';
+import { Mic, Square, Play, Pause, Trash2, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
@@ -155,11 +146,11 @@ export function HandoverPage() {
         lineId,
         shift: getCurrentShift(),
       });
-      
+
       // Step 2: Transcribe
       const transcriptResult = await handoverService.transcribe(uploadedUrl);
       setTranscript(transcriptResult);
-      
+
       toast({
         title: 'Transcription complete',
         description: 'Generating summary...',
@@ -269,9 +260,7 @@ export function HandoverPage() {
                 <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
                 <span className="font-semibold">Recording...</span>
               </div>
-              <div className="text-3xl font-mono font-bold mt-2">
-                {formatDuration(duration)}
-              </div>
+              <div className="text-3xl font-mono font-bold mt-2">{formatDuration(duration)}</div>
             </div>
           )}
 
@@ -281,9 +270,7 @@ export function HandoverPage() {
                 <Pause className="w-5 h-5" />
                 <span className="font-semibold">Paused</span>
               </div>
-              <div className="text-3xl font-mono font-bold mt-2">
-                {formatDuration(duration)}
-              </div>
+              <div className="text-3xl font-mono font-bold mt-2">{formatDuration(duration)}</div>
             </div>
           )}
 
@@ -292,12 +279,7 @@ export function HandoverPage() {
               <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-2" />
               <p className="font-semibold">Recording complete</p>
               <div className="text-2xl font-mono mt-2">{formatDuration(duration)}</div>
-              <audio
-                ref={audioRef}
-                src={audioUrl}
-                controls
-                className="w-full mt-4"
-              />
+              <audio ref={audioRef} src={audioUrl} controls className="w-full mt-4" />
             </div>
           )}
 
@@ -314,11 +296,7 @@ export function HandoverPage() {
           {/* Control Buttons */}
           <div className="flex items-center justify-center gap-3 mt-6">
             {recordingState === 'idle' && (
-              <Button
-                onClick={startRecording}
-                size="lg"
-                className="gap-2"
-              >
+              <Button onClick={startRecording} size="lg" className="gap-2">
                 <Mic className="w-5 h-5" />
                 Start Recording
               </Button>
@@ -352,11 +330,7 @@ export function HandoverPage() {
                   <Trash2 className="w-5 h-5 mr-2" />
                   Discard
                 </Button>
-                <Button
-                  onClick={processRecording}
-                  size="lg"
-                  disabled={processingState !== 'idle'}
-                >
+                <Button onClick={processRecording} size="lg" disabled={processingState !== 'idle'}>
                   {processingState === 'idle' && (
                     <>
                       <Send className="w-5 h-5 mr-2" />
@@ -382,9 +356,7 @@ export function HandoverPage() {
           {transcript && (
             <Card className="p-4">
               <h3 className="font-semibold mb-2">Transcript</h3>
-              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                {transcript}
-              </p>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">{transcript}</p>
             </Card>
           )}
 
@@ -435,9 +407,7 @@ export function HandoverPage() {
                     <Play className="w-4 h-4" />
                   </Button>
                 </div>
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {note.summary}
-                </p>
+                <p className="text-sm text-muted-foreground line-clamp-2">{note.summary}</p>
                 {note.actionItems.length > 0 && (
                   <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                     <CheckCircle2 className="w-3 h-3" />

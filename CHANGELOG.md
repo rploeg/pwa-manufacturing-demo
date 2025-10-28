@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2025-10-28
 
 ### Added
+
 - Initial release of Versuni Frontline PWA
 - React 18 + TypeScript + Vite foundation
 - Azure AI Foundry Agent Service integration
@@ -44,6 +45,7 @@ All notable changes to this project will be documented in this file.
 - WCAG 2.1 AA accessibility
 
 ### Notes
+
 - ARM64 compatible (no native dependencies)
 - Lighthouse PWA score ≥ 90
 - TypeScript strict mode enabled

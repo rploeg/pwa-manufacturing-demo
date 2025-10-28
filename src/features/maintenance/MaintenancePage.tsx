@@ -28,7 +28,8 @@ export function MaintenancePage() {
       machineId: 'filler-3',
       machineName: 'Filler-3',
       title: 'Seal mechanism jam - requires replacement',
-      description: 'Sealing mechanism jammed during production. Unit stopped responding. Requires seal cartridge replacement and alignment check.',
+      description:
+        'Sealing mechanism jammed during production. Unit stopped responding. Requires seal cartridge replacement and alignment check.',
       priority: 'high',
       status: 'in-progress',
       assignedTo: 'Tech-A',
@@ -36,8 +37,22 @@ export function MaintenancePage() {
       dueDate: new Date(Date.now() + 1000 * 60 * 60 * 1),
       estimatedDuration: 120,
       parts: [
-        { id: 'p1', name: 'Seal cartridge', partNumber: 'P/N 12345', quantity: 1, unit: 'pcs', inStock: 3 },
-        { id: 'p2', name: 'O-rings set', partNumber: 'P/N 12346', quantity: 1, unit: 'set', inStock: 5 },
+        {
+          id: 'p1',
+          name: 'Seal cartridge',
+          partNumber: 'P/N 12345',
+          quantity: 1,
+          unit: 'pcs',
+          inStock: 3,
+        },
+        {
+          id: 'p2',
+          name: 'O-rings set',
+          partNumber: 'P/N 12346',
+          quantity: 1,
+          unit: 'set',
+          inStock: 5,
+        },
       ],
     },
     {
@@ -60,7 +75,8 @@ export function MaintenancePage() {
       machineId: 'pump-2',
       machineName: 'Hydraulic Pump 2',
       title: 'Bearing replacement - vibration detected',
-      description: 'Predictive maintenance triggered by elevated vibration levels. Replace bearing before failure.',
+      description:
+        'Predictive maintenance triggered by elevated vibration levels. Replace bearing before failure.',
       priority: 'high',
       status: 'open',
       assignedTo: 'Tech-A',
@@ -68,8 +84,22 @@ export function MaintenancePage() {
       dueDate: new Date(Date.now() + 1000 * 60 * 60 * 8),
       estimatedDuration: 180,
       parts: [
-        { id: 'p3', name: 'Bearing', partNumber: 'P/N 67890', quantity: 1, unit: 'pcs', inStock: 2 },
-        { id: 'p4', name: 'Seal kit', partNumber: 'P/N 67891', quantity: 1, unit: 'kit', inStock: 4 },
+        {
+          id: 'p3',
+          name: 'Bearing',
+          partNumber: 'P/N 67890',
+          quantity: 1,
+          unit: 'pcs',
+          inStock: 2,
+        },
+        {
+          id: 'p4',
+          name: 'Seal kit',
+          partNumber: 'P/N 67891',
+          quantity: 1,
+          unit: 'kit',
+          inStock: 4,
+        },
       ],
     },
     {
@@ -101,9 +131,27 @@ export function MaintenancePage() {
       nextDue: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2),
       estimatedDuration: 60,
       steps: [
-        { id: 's1', order: 1, title: 'Lubricate bearings', description: 'Apply grease to all bearing points', completed: false },
-        { id: 's2', order: 2, title: 'Replace air filter', description: 'Remove old filter and install new one', completed: false },
-        { id: 's3', order: 3, title: 'Check fluid levels', description: 'Verify all fluid levels are within spec', completed: false },
+        {
+          id: 's1',
+          order: 1,
+          title: 'Lubricate bearings',
+          description: 'Apply grease to all bearing points',
+          completed: false,
+        },
+        {
+          id: 's2',
+          order: 2,
+          title: 'Replace air filter',
+          description: 'Remove old filter and install new one',
+          completed: false,
+        },
+        {
+          id: 's3',
+          order: 3,
+          title: 'Check fluid levels',
+          description: 'Verify all fluid levels are within spec',
+          completed: false,
+        },
       ],
     },
     {
@@ -117,9 +165,27 @@ export function MaintenancePage() {
       nextDue: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
       estimatedDuration: 120,
       steps: [
-        { id: 's1', order: 1, title: 'Remove old belt', description: 'Release tension and remove belt', completed: false },
-        { id: 's2', order: 2, title: 'Install new belt', description: 'Install and tension new belt', completed: false },
-        { id: 's3', order: 3, title: 'Check alignment', description: 'Verify pulley alignment', completed: false },
+        {
+          id: 's1',
+          order: 1,
+          title: 'Remove old belt',
+          description: 'Release tension and remove belt',
+          completed: false,
+        },
+        {
+          id: 's2',
+          order: 2,
+          title: 'Install new belt',
+          description: 'Install and tension new belt',
+          completed: false,
+        },
+        {
+          id: 's3',
+          order: 3,
+          title: 'Check alignment',
+          description: 'Verify pulley alignment',
+          completed: false,
+        },
       ],
     },
     {
@@ -133,8 +199,20 @@ export function MaintenancePage() {
       nextDue: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1), // Overdue
       estimatedDuration: 30,
       steps: [
-        { id: 's1', order: 1, title: 'Check tension', description: 'Measure belt tension', completed: false },
-        { id: 's2', order: 2, title: 'Adjust if needed', description: 'Adjust tension to spec', completed: false },
+        {
+          id: 's1',
+          order: 1,
+          title: 'Check tension',
+          description: 'Measure belt tension',
+          completed: false,
+        },
+        {
+          id: 's2',
+          order: 2,
+          title: 'Adjust if needed',
+          description: 'Adjust tension to spec',
+          completed: false,
+        },
       ],
     },
   ];
@@ -163,27 +241,38 @@ export function MaintenancePage() {
 
   const getTypeColor = (type: WorkOrder['type']) => {
     switch (type) {
-      case 'corrective': return 'text-red-600 bg-red-100';
-      case 'preventive': return 'text-blue-600 bg-blue-100';
-      case 'predictive': return 'text-purple-600 bg-purple-100';
+      case 'corrective':
+        return 'text-red-600 bg-red-100';
+      case 'preventive':
+        return 'text-blue-600 bg-blue-100';
+      case 'predictive':
+        return 'text-purple-600 bg-purple-100';
     }
   };
 
   const getPriorityColor = (priority: WorkOrder['priority']) => {
     switch (priority) {
-      case 'critical': return 'text-red-600 bg-red-100';
-      case 'high': return 'text-orange-600 bg-orange-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-green-600 bg-green-100';
+      case 'critical':
+        return 'text-red-600 bg-red-100';
+      case 'high':
+        return 'text-orange-600 bg-orange-100';
+      case 'medium':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'low':
+        return 'text-green-600 bg-green-100';
     }
   };
 
   const getStatusColor = (status: WorkOrder['status']) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in-progress': return 'text-blue-600 bg-blue-100';
-      case 'open': return 'text-gray-600 bg-gray-100';
-      case 'cancelled': return 'text-red-600 bg-red-100';
+      case 'completed':
+        return 'text-green-600 bg-green-100';
+      case 'in-progress':
+        return 'text-blue-600 bg-blue-100';
+      case 'open':
+        return 'text-gray-600 bg-gray-100';
+      case 'cancelled':
+        return 'text-red-600 bg-red-100';
     }
   };
 
@@ -203,7 +292,9 @@ export function MaintenancePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Open Work Orders</p>
-              <p className="text-2xl font-bold">{mockWorkOrders.filter((w) => w.status === 'open').length}</p>
+              <p className="text-2xl font-bold">
+                {mockWorkOrders.filter((w) => w.status === 'open').length}
+              </p>
             </div>
             <Wrench className="w-8 h-8 text-blue-500" />
           </div>
@@ -212,7 +303,9 @@ export function MaintenancePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">In Progress</p>
-              <p className="text-2xl font-bold">{mockWorkOrders.filter((w) => w.status === 'in-progress').length}</p>
+              <p className="text-2xl font-bold">
+                {mockWorkOrders.filter((w) => w.status === 'in-progress').length}
+              </p>
             </div>
             <Clock className="w-8 h-8 text-amber-500" />
           </div>
@@ -230,7 +323,9 @@ export function MaintenancePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Completed Today</p>
-              <p className="text-2xl font-bold">{mockWorkOrders.filter((w) => w.status === 'completed').length}</p>
+              <p className="text-2xl font-bold">
+                {mockWorkOrders.filter((w) => w.status === 'completed').length}
+              </p>
             </div>
             <CheckCircle className="w-8 h-8 text-green-500" />
           </div>
@@ -242,7 +337,9 @@ export function MaintenancePage() {
         <button
           onClick={() => setActiveTab('work-orders')}
           className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-            activeTab === 'work-orders' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground'
+            activeTab === 'work-orders'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground'
           }`}
         >
           Work Orders
@@ -250,7 +347,9 @@ export function MaintenancePage() {
         <button
           onClick={() => setActiveTab('pm-schedule')}
           className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-            activeTab === 'pm-schedule' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground'
+            activeTab === 'pm-schedule'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground'
           }`}
         >
           PM Schedule
@@ -277,11 +376,17 @@ export function MaintenancePage() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-sm text-muted-foreground">{order.id}</span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(order.type)}`}>
+                      <span className="font-semibold text-sm text-muted-foreground">
+                        {order.id}
+                      </span>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(order.type)}`}
+                      >
                         {order.type}
                       </span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(order.priority)}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(order.priority)}`}
+                      >
                         {order.priority}
                       </span>
                     </div>
@@ -292,7 +397,9 @@ export function MaintenancePage() {
                       <span>Assigned: {order.assignedTo}</span>
                       <span>Duration: {order.estimatedDuration} min</span>
                       {order.dueDate && (
-                        <span className={isOverdue(order.dueDate) ? 'text-red-600 font-medium' : ''}>
+                        <span
+                          className={isOverdue(order.dueDate) ? 'text-red-600 font-medium' : ''}
+                        >
                           Due: {new Date(order.dueDate).toLocaleDateString()}
                         </span>
                       )}
@@ -302,7 +409,9 @@ export function MaintenancePage() {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}
+                    >
                       {order.status}
                     </span>
                     <Button
@@ -310,7 +419,11 @@ export function MaintenancePage() {
                       variant={order.status === 'in-progress' ? 'default' : 'outline'}
                       onClick={() => setSelectedOrder(order)}
                     >
-                      {order.status === 'completed' ? 'View' : order.status === 'in-progress' ? 'Continue' : 'Start'}
+                      {order.status === 'completed'
+                        ? 'View'
+                        : order.status === 'in-progress'
+                          ? 'Continue'
+                          : 'Start'}
                     </Button>
                   </div>
                 </div>
@@ -336,7 +449,10 @@ export function MaintenancePage() {
 
           <div className="space-y-3">
             {mockPMSchedule.map((pm) => (
-              <Card key={pm.id} className={`p-4 hover:shadow-lg transition-shadow ${isPMOverdue(pm) ? 'border-red-300' : ''}`}>
+              <Card
+                key={pm.id}
+                className={`p-4 hover:shadow-lg transition-shadow ${isPMOverdue(pm) ? 'border-red-300' : ''}`}
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -384,8 +500,12 @@ export function MaintenancePage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">{selectedOrder.id}: {selectedOrder.title}</h2>
-              <Button variant="ghost" size="sm" onClick={() => setSelectedOrder(null)}>Close</Button>
+              <h2 className="text-xl font-bold">
+                {selectedOrder.id}: {selectedOrder.title}
+              </h2>
+              <Button variant="ghost" size="sm" onClick={() => setSelectedOrder(null)}>
+                Close
+              </Button>
             </div>
 
             <div className="space-y-4">
@@ -402,13 +522,17 @@ export function MaintenancePage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-semibold mb-2">Priority</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(selectedOrder.priority)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(selectedOrder.priority)}`}
+                  >
                     {selectedOrder.priority}
                   </span>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-2">Status</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}
+                  >
                     {selectedOrder.status}
                   </span>
                 </div>
@@ -419,7 +543,9 @@ export function MaintenancePage() {
                 <div className="text-sm space-y-1">
                   <p>Created: {new Date(selectedOrder.createdAt).toLocaleString()}</p>
                   {selectedOrder.dueDate && (
-                    <p className={isOverdue(selectedOrder.dueDate) ? 'text-red-600 font-medium' : ''}>
+                    <p
+                      className={isOverdue(selectedOrder.dueDate) ? 'text-red-600 font-medium' : ''}
+                    >
                       Due: {new Date(selectedOrder.dueDate).toLocaleString()}
                     </p>
                   )}
@@ -434,14 +560,21 @@ export function MaintenancePage() {
                   <h3 className="font-semibold mb-2">Parts Required</h3>
                   <div className="space-y-2">
                     {selectedOrder.parts.map((part) => (
-                      <div key={part.id} className="flex items-center justify-between text-sm border-b pb-2">
+                      <div
+                        key={part.id}
+                        className="flex items-center justify-between text-sm border-b pb-2"
+                      >
                         <div>
                           <p className="font-medium">{part.name}</p>
                           <p className="text-xs text-muted-foreground">{part.partNumber}</p>
                         </div>
                         <div className="text-right">
-                          <p>Qty: {part.quantity} {part.unit}</p>
-                          <p className={`text-xs ${part.inStock >= part.quantity ? 'text-green-600' : 'text-red-600'}`}>
+                          <p>
+                            Qty: {part.quantity} {part.unit}
+                          </p>
+                          <p
+                            className={`text-xs ${part.inStock >= part.quantity ? 'text-green-600' : 'text-red-600'}`}
+                          >
                             In stock: {part.inStock}
                           </p>
                         </div>
@@ -471,7 +604,9 @@ export function MaintenancePage() {
             </div>
 
             <div className="mt-6 flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setSelectedOrder(null)}>Close</Button>
+              <Button variant="outline" onClick={() => setSelectedOrder(null)}>
+                Close
+              </Button>
               {selectedOrder.status !== 'completed' && (
                 <>
                   {selectedOrder.status === 'open' && (

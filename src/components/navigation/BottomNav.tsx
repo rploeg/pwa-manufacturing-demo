@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Home, MessageSquare, ListChecks, Network, Settings } from 'lucide-react';
+import { Home, MessageSquare, Network, Settings, Calendar } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 const navItems = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/chat', icon: MessageSquare, label: 'Agents' },
-  { path: '/scenarios', icon: ListChecks, label: 'Scenarios' },
   { path: '/twin', icon: Network, label: 'Twin' },
+  { path: '/planning', icon: Calendar, label: 'Planning' },
   { path: '/settings', icon: Settings, label: 'More' },
 ];
 

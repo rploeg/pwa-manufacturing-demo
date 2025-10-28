@@ -183,45 +183,47 @@ export class KnowledgeClient {
   /**
    * Search knowledge base
    */
-  async search(query: string, filters?: {
-    category?: string;
-    tags?: string[];
-    machineIds?: string[];
-  }): Promise<KnowledgeArticle[]> {
+  async search(
+    query: string,
+    filters?: {
+      category?: string;
+      tags?: string[];
+      machineIds?: string[];
+    }
+  ): Promise<KnowledgeArticle[]> {
     if (this.useMocks) {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       let results = [...mockArticles];
-      
+
       // Filter by category
       if (filters?.category && filters.category !== 'all') {
-        results = results.filter(a => a.category === filters.category);
+        results = results.filter((a) => a.category === filters.category);
       }
-      
+
       // Filter by tags
       if (filters?.tags && filters.tags.length > 0) {
-        results = results.filter(a => 
-          filters.tags!.some(tag => a.tags.includes(tag))
-        );
+        results = results.filter((a) => filters.tags!.some((tag) => a.tags.includes(tag)));
       }
-      
+
       // Filter by machine IDs
       if (filters?.machineIds && filters.machineIds.length > 0) {
-        results = results.filter(a => 
-          a.machineIds && filters.machineIds!.some(id => a.machineIds!.includes(id))
+        results = results.filter(
+          (a) => a.machineIds && filters.machineIds!.some((id) => a.machineIds!.includes(id))
         );
       }
-      
+
       // Search by query
       if (query && query.trim()) {
         const searchLower = query.toLowerCase();
-        results = results.filter(a => 
-          a.title.toLowerCase().includes(searchLower) ||
-          a.content.toLowerCase().includes(searchLower) ||
-          a.tags.some(tag => tag.toLowerCase().includes(searchLower))
+        results = results.filter(
+          (a) =>
+            a.title.toLowerCase().includes(searchLower) ||
+            a.content.toLowerCase().includes(searchLower) ||
+            a.tags.some((tag) => tag.toLowerCase().includes(searchLower))
         );
       }
-      
+
       return results;
     }
 
@@ -236,16 +238,16 @@ export class KnowledgeClient {
    */
   async getArticle(id: string): Promise<KnowledgeArticle> {
     if (this.useMocks) {
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      const article = mockArticles.find(a => a.id === id);
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const article = mockArticles.find((a) => a.id === id);
       if (!article) {
         throw new Error(`Article ${id} not found`);
       }
-      
+
       // Increment view count
       article.views++;
-      
+
       return article;
     }
 
@@ -256,10 +258,12 @@ export class KnowledgeClient {
   /**
    * Create knowledge article
    */
-  async createArticle(article: Omit<KnowledgeArticle, 'id' | 'views' | 'helpful' | 'createdAt' | 'updatedAt'>): Promise<KnowledgeArticle> {
+  async createArticle(
+    article: Omit<KnowledgeArticle, 'id' | 'views' | 'helpful' | 'createdAt' | 'updatedAt'>
+  ): Promise<KnowledgeArticle> {
     if (this.useMocks) {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       const newArticle: KnowledgeArticle = {
         ...article,
         id: `kb-${Date.now()}`,
@@ -268,7 +272,7 @@ export class KnowledgeClient {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      
+
       mockArticles.unshift(newArticle);
       return newArticle;
     }
@@ -282,9 +286,9 @@ export class KnowledgeClient {
    */
   async markHelpful(id: string): Promise<void> {
     if (this.useMocks) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      const article = mockArticles.find(a => a.id === id);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const article = mockArticles.find((a) => a.id === id);
       if (article) {
         article.helpful++;
       }
@@ -299,7 +303,7 @@ export class KnowledgeClient {
    */
   async getAllArticles(): Promise<KnowledgeArticle[]> {
     if (this.useMocks) {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       return [...mockArticles];
     }
 

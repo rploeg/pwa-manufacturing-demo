@@ -1,6 +1,8 @@
 import type { ScenarioTemplate } from '@/data/types';
 
 // 6 Ready-to-Run Scenario Templates
+// Note: Changeover Optimization, Safety & Compliance, OEE Coaching, and Production Planning
+// now have dedicated pages at /changeover, /safety, /oee-coaching, and /planning
 export const scenarioTemplates: ScenarioTemplate[] = [
   {
     id: 'oee-analysis',
@@ -48,7 +50,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Data Agent calculates availability, performance, and quality',
         type: 'agent',
         agentId: 'data-agent',
-        prompt: 'Calculate OEE breakdown for {lineId} during {shift} shift. Compare to baseline and identify which component (availability, performance, or quality) contributed most to the drop.',
+        prompt:
+          'Calculate OEE breakdown for {lineId} during {shift} shift. Compare to baseline and identify which component (availability, performance, or quality) contributed most to the drop.',
       },
       {
         id: 'step-3',
@@ -57,7 +60,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Orchestrator routes to appropriate specialist agent',
         type: 'agent',
         agentId: 'orchestrator',
-        prompt: 'Based on the OEE analysis, identify the top 3 root causes for the drop. Include downtime events, quality issues, and performance degradation.',
+        prompt:
+          'Based on the OEE analysis, identify the top 3 root causes for the drop. Include downtime events, quality issues, and performance degradation.',
       },
       {
         id: 'step-4',
@@ -108,7 +112,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Data Agent queries downtime logs',
         type: 'agent',
         agentId: 'data-agent',
-        prompt: 'Retrieve all downtime events for {scope} on {date}. Group by reason code and calculate total duration for each.',
+        prompt:
+          'Retrieve all downtime events for {scope} on {date}. Group by reason code and calculate total duration for each.',
       },
       {
         id: 'step-3',
@@ -117,7 +122,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Maintenance Agent identifies recurring patterns',
         type: 'agent',
         agentId: 'maintenance-agent',
-        prompt: 'Analyze the downtime events and identify the top 3 root causes. For each cause, provide: total duration, frequency, affected equipment, and recommended corrective actions.',
+        prompt:
+          'Analyze the downtime events and identify the top 3 root causes. For each cause, provide: total duration, frequency, affected equipment, and recommended corrective actions.',
       },
       {
         id: 'step-4',
@@ -126,7 +132,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Create actionable maintenance tasks',
         type: 'agent',
         agentId: 'maintenance-agent',
-        prompt: 'For each of the top 3 root causes, generate specific maintenance tasks with priority, estimated time, and required parts.',
+        prompt:
+          'For each of the top 3 root causes, generate specific maintenance tasks with priority, estimated time, and required parts.',
       },
       {
         id: 'step-5',
@@ -178,7 +185,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Quality Agent retrieves inspection checklist',
         type: 'agent',
         agentId: 'quality-agent',
-        prompt: 'Retrieve the visual inspection checklist for {sku}. Include all critical dimensions, cosmetic checks, and functional tests.',
+        prompt:
+          'Retrieve the visual inspection checklist for {sku}. Include all critical dimensions, cosmetic checks, and functional tests.',
       },
       {
         id: 'step-3',
@@ -214,7 +222,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Quality Agent evaluates defect patterns',
         type: 'agent',
         agentId: 'quality-agent',
-        prompt: 'Analyze the inspection results for {sku}. If defects were found, identify potential root causes and recommend corrective actions.',
+        prompt:
+          'Analyze the inspection results for {sku}. If defects were found, identify potential root causes and recommend corrective actions.',
       },
       {
         id: 'step-5',
@@ -267,7 +276,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Maintenance Agent creates task list',
         type: 'agent',
         agentId: 'maintenance-agent',
-        prompt: 'Create a preventive maintenance checklist for {machineId} at {triggerCycles} cycles. Include inspection points, lubrication tasks, and parts to check.',
+        prompt:
+          'Create a preventive maintenance checklist for {machineId} at {triggerCycles} cycles. Include inspection points, lubrication tasks, and parts to check.',
       },
       {
         id: 'step-3',
@@ -324,7 +334,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Handover Agent fetches voice transcripts',
         type: 'agent',
         agentId: 'handover-agent',
-        prompt: 'Retrieve all handover notes for {lineId} during {shift} shift. Include voice transcripts and manual notes.',
+        prompt:
+          'Retrieve all handover notes for {lineId} during {shift} shift. Include voice transcripts and manual notes.',
       },
       {
         id: 'step-3',
@@ -333,7 +344,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Orchestrator creates concise summary',
         type: 'agent',
         agentId: 'orchestrator',
-        prompt: 'Summarize the shift handover notes for {lineId}. Include: key events, production metrics, quality issues, maintenance performed, and open action items.',
+        prompt:
+          'Summarize the shift handover notes for {lineId}. Include: key events, production metrics, quality issues, maintenance performed, and open action items.',
       },
       {
         id: 'step-4',
@@ -391,7 +403,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Data Agent queries sensor history',
         type: 'agent',
         agentId: 'data-agent',
-        prompt: 'Retrieve temperature sensor data for {machineId} over {timeRange}. Include min, max, average, and standard deviation.',
+        prompt:
+          'Retrieve temperature sensor data for {machineId} over {timeRange}. Include min, max, average, and standard deviation.',
       },
       {
         id: 'step-3',
@@ -400,7 +413,8 @@ export const scenarioTemplates: ScenarioTemplate[] = [
         description: 'Orchestrator identifies anomalies',
         type: 'agent',
         agentId: 'orchestrator',
-        prompt: 'Analyze the temperature trend for {machineId}. Identify any spikes, drops, or drift from normal operating range. If anomalies detected, route to Maintenance Agent for diagnosis.',
+        prompt:
+          'Analyze the temperature trend for {machineId}. Identify any spikes, drops, or drift from normal operating range. If anomalies detected, route to Maintenance Agent for diagnosis.',
       },
       {
         id: 'step-4',

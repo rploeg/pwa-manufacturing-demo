@@ -7,9 +7,7 @@ import { ScenarioRunner } from './ScenarioRunner';
 import type { ScenarioTemplate } from '@/data/types';
 
 export function ScenariosPage() {
-  const [selectedTemplate, setSelectedTemplate] = useState<ScenarioTemplate | null>(
-    null
-  );
+  const [selectedTemplate, setSelectedTemplate] = useState<ScenarioTemplate | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
 
   const filteredTemplates =
@@ -32,8 +30,8 @@ export function ScenariosPage() {
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Guided Scenarios</h1>
         <p className="text-muted-foreground">
-          Pre-configured workflows powered by multi-agent AI to solve common
-          manufacturing challenges
+          Pre-configured workflows powered by multi-agent AI to solve common manufacturing
+          challenges
         </p>
       </div>
 
@@ -90,10 +88,7 @@ export function ScenariosPage() {
 
       {/* Scenario Runner Modal */}
       {selectedTemplate && (
-        <ScenarioRunner
-          template={selectedTemplate}
-          onClose={() => setSelectedTemplate(null)}
-        />
+        <ScenarioRunner template={selectedTemplate} onClose={() => setSelectedTemplate(null)} />
       )}
     </div>
   );

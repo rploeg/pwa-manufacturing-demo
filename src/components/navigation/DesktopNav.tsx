@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import {
   Home,
   MessageSquare,
-  ListChecks,
   Network,
   ClipboardCheck,
   Wrench,
@@ -10,19 +9,26 @@ import {
   Mic,
   BookOpen,
   Settings,
+  RefreshCw,
+  Shield,
+  Trophy,
+  Calendar,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 const navItems = [
   { path: '/home', icon: Home, label: 'Home' },
   { path: '/chat', icon: MessageSquare, label: 'Agents' },
-  { path: '/scenarios', icon: ListChecks, label: 'Scenarios' },
   { path: '/twin', icon: Network, label: 'Digital Twin' },
   { path: '/quality', icon: ClipboardCheck, label: 'Quality' },
   { path: '/maintenance', icon: Wrench, label: 'Maintenance' },
   { path: '/predictive', icon: Brain, label: 'Predictive' },
   { path: '/handover', icon: Mic, label: 'Handover' },
   { path: '/knowledge', icon: BookOpen, label: 'Knowledge' },
+  { path: '/changeover', icon: RefreshCw, label: 'Changeover' },
+  { path: '/safety', icon: Shield, label: 'Safety' },
+  { path: '/oee-coaching', icon: Trophy, label: 'OEE Coaching' },
+  { path: '/planning', icon: Calendar, label: 'Planning' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 

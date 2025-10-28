@@ -53,7 +53,7 @@ const mockTwinHierarchy: TwinNode = {
           properties: [
             { key: 'status', value: 'warning' },
             { key: 'speed', value: 115, unit: 'units/min' },
-            { key: 'temperature', value: 71.4, unit: '°C' },
+            { key: 'temperature', value: 87.4, unit: '°C' },
           ],
         },
       ],
@@ -250,9 +250,7 @@ export class DigitalTwinClient {
     }
 
     // Real WebSocket connection
-    const wsUrl = twinClient.defaults.baseURL
-      ?.replace('http', 'ws')
-      .replace('https', 'wss');
+    const wsUrl = twinClient.defaults.baseURL?.replace('http', 'ws').replace('https', 'wss');
     const ws = new WebSocket(`${wsUrl}/twins/${nodeId}/live`);
 
     ws.onmessage = (event) => {
@@ -283,9 +281,7 @@ export class DigitalTwinClient {
    */
   async getAlarms(nodeId: string, activeOnly = true): Promise<Alarm[]> {
     if (this.useMocks) {
-      return mockAlarms.filter(
-        (a) => a.nodeId === nodeId && (!activeOnly || !a.acknowledged)
-      );
+      return mockAlarms.filter((a) => a.nodeId === nodeId && (!activeOnly || !a.acknowledged));
     }
 
     const response = await twinClient.get<Alarm[]>(`/twins/${nodeId}/alarms`, {

@@ -71,11 +71,7 @@ export const dbHelpers = {
   },
 
   // Create or update conversation
-  async upsertConversation(
-    id: string,
-    title: string,
-    agentId?: string
-  ): Promise<void> {
+  async upsertConversation(id: string, title: string, agentId?: string): Promise<void> {
     const now = new Date();
     const existing = await db.conversations.get(id);
     if (existing) {
@@ -102,11 +98,7 @@ export const dbHelpers = {
   },
 
   // Queue an offline request
-  async queueOfflineRequest(
-    endpoint: string,
-    method: string,
-    body: unknown
-  ): Promise<void> {
+  async queueOfflineRequest(endpoint: string, method: string, body: unknown): Promise<void> {
     await db.offlineQueue.add({
       id: crypto.randomUUID(),
       endpoint,

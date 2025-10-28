@@ -32,22 +32,26 @@ That's it! The app runs with **MSW mocks** - no backend required.
 ## 🗂️ Key Files to Explore
 
 ### Configuration
+
 - **`.env.example`** - Environment variable template
 - **`vite.config.ts`** - Vite + PWA configuration
 - **`tailwind.config.js`** - Theme and colors
 
 ### Core Application
+
 - **`src/app/App.tsx`** - Main app component
 - **`src/app/Router.tsx`** - Route definitions
 - **`src/app/Layout.tsx`** - Responsive layout shell
 
 ### Features
+
 - **`src/features/home/`** - Dashboard
 - **`src/features/chat/`** - Agent conversations
 - **`src/features/twin/`** - Digital Twin explorer
 - **`src/features/handover/`** - Voice handovers
 
 ### Data Layer
+
 - **`src/data/clients/`** - HTTP clients (agent, twin, handover)
 - **`src/data/types.ts`** - TypeScript models
 - **`src/data/db.ts`** - IndexedDB schema
@@ -69,6 +73,7 @@ VITE_AAD_TENANT_ID=your-tenant-id
 ### Add a New Agent
 
 1. Update `src/mocks/handlers.ts`:
+
    ```typescript
    const mockAgents = [
      // ... existing agents
@@ -91,6 +96,7 @@ VITE_AAD_TENANT_ID=your-tenant-id
 ### Add a New Page
 
 1. Create component:
+
    ```typescript
    // src/features/reports/ReportsPage.tsx
    export function ReportsPage() {
@@ -99,6 +105,7 @@ VITE_AAD_TENANT_ID=your-tenant-id
    ```
 
 2. Add route in `src/app/Router.tsx`:
+
    ```typescript
    <Route path="reports" element={<ReportsPage />} />
    ```
@@ -130,20 +137,24 @@ pnpm preview
 ## 📱 Install as PWA
 
 ### Desktop (Chrome/Edge)
+
 1. Look for install icon (⊕) in address bar
 2. Click "Install Versuni Frontline"
 
 ### iOS
+
 1. Safari → Share button
 2. "Add to Home Screen"
 
 ### Android
+
 1. Chrome → Menu (⋮)
 2. "Add to Home Screen"
 
 ## 🐛 Troubleshooting
 
 ### Port 5173 already in use
+
 ```bash
 # Vite will auto-increment to 5174, 5175, etc.
 # Or specify a port:
@@ -151,6 +162,7 @@ pnpm run dev -- --port 3000
 ```
 
 ### TypeScript errors in editor
+
 ```bash
 # Restart TypeScript server in VS Code:
 # Ctrl+Shift+P → "TypeScript: Restart TS Server"
@@ -160,11 +172,13 @@ pnpm install --save-dev @types/node
 ```
 
 ### MSW not intercepting requests
+
 - MSW only works in browser (not Node)
 - Check browser console for `[MSW] Mocking enabled.`
 - Ensure `VITE_USE_MOCKS=true` in `.env`
 
 ### Service worker not updating
+
 ```bash
 # Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
 # Or: DevTools → Application → Service Workers → Unregister

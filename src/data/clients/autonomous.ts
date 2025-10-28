@@ -9,7 +9,13 @@ import { digitalTwin } from './twin';
 export interface AutonomousEvent {
   id: string;
   timestamp: Date;
-  type: 'anomaly_detected' | 'agent_triggered' | 'action_planned' | 'line_stopped' | 'maintenance_scheduled' | 'alert';
+  type:
+    | 'anomaly_detected'
+    | 'agent_triggered'
+    | 'action_planned'
+    | 'line_stopped'
+    | 'maintenance_scheduled'
+    | 'alert';
   severity: 'info' | 'warning' | 'critical';
   equipment: string;
   location: string;
@@ -40,7 +46,7 @@ class AutonomousMonitoringService {
   private eventListeners: Array<(event: AutonomousEvent) => void> = [];
   private eventHistory: AutonomousEvent[] = [];
   private isMonitoring = false;
-  
+
   // Cooldown tracking to prevent re-triggering same anomalies
   private anomalyCooldowns: Map<string, number> = new Map();
   private readonly COOLDOWN_MS = 60000; // 60 seconds cooldown per anomaly
@@ -60,7 +66,7 @@ class AutonomousMonitoringService {
    */
   startMonitoring(): void {
     if (this.isMonitoring) return;
-    
+
     this.isMonitoring = true;
     this.emitEvent({
       id: Date.now().toString(),
@@ -69,8 +75,12 @@ class AutonomousMonitoringService {
       severity: 'info',
       equipment: 'Autonomous System',
       location: 'Factory-1',
-      message: '🤖 Autonomous monitoring system activated - Now continuously monitoring all production lines for anomalies, performance degradation, and safety issues.',
-      details: { actionTaken: 'Real-time monitoring initiated across all equipment. Checking temperature, speed, OEE metrics every 5 seconds. AI agents on standby for predictive analysis.' },
+      message:
+        '🤖 Autonomous monitoring system activated - Now continuously monitoring all production lines for anomalies, performance degradation, and safety issues.',
+      details: {
+        actionTaken:
+          'Real-time monitoring initiated across all equipment. Checking temperature, speed, OEE metrics every 5 seconds. AI agents on standby for predictive analysis.',
+      },
     });
 
     this.intervalId = setInterval(() => {
@@ -88,7 +98,7 @@ class AutonomousMonitoringService {
     }
     this.isMonitoring = false;
     this.anomalyCooldowns.clear(); // Clear cooldowns when stopping
-    
+
     this.emitEvent({
       id: Date.now().toString(),
       timestamp: new Date(),
@@ -96,7 +106,8 @@ class AutonomousMonitoringService {
       severity: 'info',
       equipment: 'Autonomous System',
       location: 'Factory-1',
-      message: '⏸️ Autonomous monitoring system paused - All active monitoring suspended. Cooldown timers cleared.',
+      message:
+        '⏸️ Autonomous monitoring system paused - All active monitoring suspended. Cooldown timers cleared.',
     });
   }
 
@@ -106,7 +117,7 @@ class AutonomousMonitoringService {
   private isOnCooldown(key: string): boolean {
     const lastTrigger = this.anomalyCooldowns.get(key);
     if (!lastTrigger) return false;
-    
+
     const elapsed = Date.now() - lastTrigger;
     return elapsed < this.COOLDOWN_MS;
   }
@@ -125,7 +136,7 @@ class AutonomousMonitoringService {
     try {
       // Get root hierarchy (site level)
       const hierarchy = await digitalTwin.getHierarchy('site-1');
-      
+
       // Check all equipment nodes recursively
       await this.checkNodeRecursive(hierarchy, hierarchy.name);
     } catch (error) {
@@ -139,7 +150,7 @@ class AutonomousMonitoringService {
   private async checkNodeRecursive(node: any, location: string): Promise<void> {
     // Check current node
     await this.checkNode(node, location);
-    
+
     // Check children
     if (node.children) {
       for (const child of node.children) {
@@ -182,19 +193,19 @@ class AutonomousMonitoringService {
   ): Promise<void> {
     const { min, max } = this.config.anomalyThresholds.temperature;
     const cooldownKey = `temp-${node.id}`;
-    
+
     if (value > max) {
       // Check if we already triggered this anomaly recently
       if (this.isOnCooldown(cooldownKey)) {
         return;
       }
-      
+
       // Set cooldown
       this.setCooldown(cooldownKey);
-      
+
       // Critical temperature - immediate action needed
       const eventId = Date.now().toString();
-      
+
       // 1. Detect anomaly
       this.emitEvent({
         id: eventId,
@@ -241,13 +252,15 @@ class AutonomousMonitoringService {
             message: `📋 Emergency maintenance work order created - Cooling system inspection required. Technician John Smith assigned with 30-minute response time.`,
             details: {
               workOrderId,
-              actionTaken: 'Urgent WO created: Inspect cooling fans, check thermal sensors, verify coolant levels. Priority: Critical.',
+              actionTaken:
+                'Urgent WO created: Inspect cooling fans, check thermal sensors, verify coolant levels. Priority: Critical.',
             },
           });
 
           // 4. Stop line if temperature continues to rise
           setTimeout(() => {
-            if (value > max + 5) { // Simulate worsening condition
+            if (value > max + 5) {
+              // Simulate worsening condition
               this.emitEvent({
                 id: (Date.now() + 3).toString(),
                 timestamp: new Date(),
@@ -257,7 +270,8 @@ class AutonomousMonitoringService {
                 location,
                 message: `🛑 EMERGENCY SHUTDOWN: ${node.name} automatically stopped due to critical temperature threshold breach. Safety protocols activated, supervisor notified.`,
                 details: {
-                  actionTaken: 'Line shutdown initiated. All operators alerted. Quality hold placed on last batch. Root cause investigation started.',
+                  actionTaken:
+                    'Line shutdown initiated. All operators alerted. Quality hold placed on last batch. Root cause investigation started.',
                 },
               });
             }
@@ -270,7 +284,7 @@ class AutonomousMonitoringService {
         return;
       }
       this.setCooldown(cooldownKeyLow);
-      
+
       // Low temperature - potential cooling issue
       this.emitEvent({
         id: Date.now().toString(),
@@ -301,13 +315,13 @@ class AutonomousMonitoringService {
   ): Promise<void> {
     const { min, max } = this.config.anomalyThresholds.speed;
     const cooldownKey = `speed-${node.id}`;
-    
+
     if (value > max) {
       if (this.isOnCooldown(cooldownKey)) {
         return;
       }
       this.setCooldown(cooldownKey);
-      
+
       this.emitEvent({
         id: Date.now().toString(),
         timestamp: new Date(),
@@ -345,7 +359,7 @@ class AutonomousMonitoringService {
         return;
       }
       this.setCooldown(cooldownKeyLow);
-      
+
       this.emitEvent({
         id: Date.now().toString(),
         timestamp: new Date(),
@@ -367,20 +381,16 @@ class AutonomousMonitoringService {
   /**
    * Check OEE anomaly
    */
-  private async checkOEEAnomaly(
-    node: any,
-    location: string,
-    value: number
-  ): Promise<void> {
+  private async checkOEEAnomaly(node: any, location: string, value: number): Promise<void> {
     const { min } = this.config.anomalyThresholds.oee;
     const cooldownKey = `oee-${node.id}`;
-    
+
     if (value < min) {
       if (this.isOnCooldown(cooldownKey)) {
         return;
       }
       this.setCooldown(cooldownKey);
-      
+
       this.emitEvent({
         id: Date.now().toString(),
         timestamp: new Date(),
@@ -423,7 +433,8 @@ class AutonomousMonitoringService {
             location,
             message: `💡 Root cause analysis complete: Frequent micro-stops detected (avg 3-5 seconds each). Primary cause: Belt tension drift causing feed inconsistency. Recommended corrective action: Belt tension adjustment and guide alignment check.`,
             details: {
-              actionTaken: 'Preventive maintenance task created and added to backlog. Scheduled for next planned downtime window (next shift changeover). Estimated fix time: 15 minutes.',
+              actionTaken:
+                'Preventive maintenance task created and added to backlog. Scheduled for next planned downtime window (next shift changeover). Estimated fix time: 15 minutes.',
             },
           });
         }, 2500);
@@ -436,10 +447,10 @@ class AutonomousMonitoringService {
    */
   subscribe(callback: (event: AutonomousEvent) => void): () => void {
     this.eventListeners.push(callback);
-    
+
     // Return unsubscribe function
     return () => {
-      this.eventListeners = this.eventListeners.filter(cb => cb !== callback);
+      this.eventListeners = this.eventListeners.filter((cb) => cb !== callback);
     };
   }
 
@@ -448,13 +459,13 @@ class AutonomousMonitoringService {
    */
   private emitEvent(event: AutonomousEvent): void {
     this.eventHistory.push(event);
-    
+
     // Keep only last 100 events
     if (this.eventHistory.length > 100) {
       this.eventHistory.shift();
     }
 
-    this.eventListeners.forEach(listener => listener(event));
+    this.eventListeners.forEach((listener) => listener(event));
   }
 
   /**
