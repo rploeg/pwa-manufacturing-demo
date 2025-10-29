@@ -148,8 +148,8 @@ class MaintenanceCostOptimizationService {
    * Forecast spare parts demand
    */
   async forecastSparePartsDemand(
-    equipmentId: string,
-    horizon: number = 90 // days
+    _equipmentId: string,
+    _horizon: number = 90 // days
   ): Promise<SparePartForecast[]> {
     await new Promise((resolve) => setTimeout(resolve, 400));
 
@@ -376,7 +376,7 @@ class MaintenanceCostOptimizationService {
     return probability;
   }
 
-  private calculateOptimalMaintenanceWindow(task: MaintenanceTask): Date {
+  private calculateOptimalMaintenanceWindow(_task: MaintenanceTask): Date {
     const optimal = new Date();
     // Find next weekend or low-production period
     const daysToWeekend = (6 - optimal.getDay() + 7) % 7 || 7;

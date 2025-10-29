@@ -256,7 +256,7 @@ class YieldPredictionAIService {
   /**
    * Get yield analytics and insights
    */
-  async getYieldAnalytics(lineId: string, days: number = 7): Promise<YieldAnalytics> {
+  async getYieldAnalytics(_lineId: string, days: number = 7): Promise<YieldAnalytics> {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Generate mock trend data
@@ -360,7 +360,7 @@ class YieldPredictionAIService {
   /**
    * Get real-time yield monitoring status
    */
-  async getYieldStatus(lineId: string): Promise<{
+  async getYieldStatus(_lineId: string): Promise<{
     status: 'optimal' | 'warning' | 'critical';
     currentYield: number;
     targetYield: number;

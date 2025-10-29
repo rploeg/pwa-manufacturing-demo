@@ -83,7 +83,7 @@ class IntelligentSchedulingAIService {
     jobs: ScheduleJob[],
     availableLines: Array<{ id: string; name: string; capabilities: string[] }>,
     operators: Array<{ id: string; name: string; skills: string[]; shift: string }>,
-    horizon: number = 24 // hours
+    _horizon: number = 24 // hours
   ): Promise<OptimizedSchedule> {
     await new Promise((resolve) => setTimeout(resolve, 1200));
 
@@ -218,7 +218,7 @@ class IntelligentSchedulingAIService {
   /**
    * Generate what-if scenarios
    */
-  async generateWhatIfScenarios(currentSchedule: OptimizedSchedule): Promise<WhatIfScenario[]> {
+  async generateWhatIfScenarios(_currentSchedule: OptimizedSchedule): Promise<WhatIfScenario[]> {
     await new Promise((resolve) => setTimeout(resolve, 600));
 
     return [
@@ -297,7 +297,7 @@ class IntelligentSchedulingAIService {
    * Detect scheduling conflicts in real-time
    */
   async detectConflicts(
-    schedule: OptimizedSchedule,
+    _schedule: OptimizedSchedule,
     realTimeEvents: Array<{
       type: 'delay' | 'breakdown' | 'absence' | 'rush-order';
       details: string;

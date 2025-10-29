@@ -118,7 +118,7 @@ class OptimizationAIService {
   }
 
   private generateSpeedRecommendation(
-    machineId: string,
+    _machineId: string,
     machineName: string,
     currentSpeed: number,
     currentQuality: number
@@ -183,7 +183,7 @@ class OptimizationAIService {
   }
 
   private generateTemperatureRecommendation(
-    machineId: string,
+    _machineId: string,
     machineName: string,
     currentTemp: number,
     currentQuality: number
@@ -222,7 +222,7 @@ class OptimizationAIService {
   }
 
   private generatePressureRecommendation(
-    machineId: string,
+    _machineId: string,
     machineName: string,
     currentPressure: number
   ): OptimizationRecommendation | null {

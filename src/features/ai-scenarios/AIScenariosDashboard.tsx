@@ -3,12 +3,11 @@ import {
   TrendingUp,
   Calendar,
   Users,
-  Leaf,
-  BarChart3,
+  DollarSign,
   Sparkles,
   ArrowRight,
-  DollarSign,
-  Activity,
+  Zap,
+  BarChart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -72,7 +71,7 @@ export function AIScenariosDashboard() {
       title: 'Environmental Compliance AI',
       description:
         'Carbon footprint tracking, energy optimization, and automated sustainability reporting',
-      icon: Leaf,
+      icon: Zap,
       color: 'from-green-600 to-teal-500',
       path: '/energy',
       category: 'sustainability',
@@ -88,7 +87,7 @@ export function AIScenariosDashboard() {
       title: 'Line Balancing AI',
       description:
         'Workload optimization with bottleneck detection and automated task redistribution',
-      icon: BarChart3,
+      icon: BarChart,
       color: 'from-orange-500 to-red-500',
       path: '/line-balancing',
       category: 'optimization',
