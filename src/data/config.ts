@@ -47,6 +47,13 @@ export const env: EnvConfig = {
   featureFlags: parseFeatureFlags(import.meta.env.VITE_FEATURE_FLAGS),
 };
 
+// Log configuration on startup to help debugging
+console.log('Environment Configuration:', {
+  isProd: import.meta.env.PROD,
+  useMocks: env.useMocks,
+  mode: import.meta.env.MODE,
+});
+
 export const isDev = env.env === 'development';
 export const isProd = env.env === 'production';
 export const isTest = env.env === 'test';
