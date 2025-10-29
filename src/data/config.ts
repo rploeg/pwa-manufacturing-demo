@@ -38,7 +38,11 @@ export const env: EnvConfig = {
   aadClientId: import.meta.env.VITE_AAD_CLIENT_ID || '',
   aadTenantId: import.meta.env.VITE_AAD_TENANT_ID || '',
   aadRedirectUri: import.meta.env.VITE_AAD_REDIRECT_URI || window.location.origin,
-  useMocks: import.meta.env.VITE_USE_MOCKS === 'true',
+  // Default to mocks in production unless explicitly set to false
+  // In development, only use mocks if explicitly set to true
+  useMocks: import.meta.env.VITE_USE_MOCKS 
+    ? import.meta.env.VITE_USE_MOCKS === 'true'
+    : import.meta.env.PROD, // Use mocks in production by default
   env: (import.meta.env.VITE_ENV as EnvConfig['env']) || 'development',
   featureFlags: parseFeatureFlags(import.meta.env.VITE_FEATURE_FLAGS),
 };
