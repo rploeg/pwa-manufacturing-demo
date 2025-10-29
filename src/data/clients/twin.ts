@@ -5,7 +5,7 @@ import type { TwinNode, LiveMetric, Alarm } from '../types';
 // Mock data for demo mode
 const mockTwinHierarchy: TwinNode = {
   id: 'site-1',
-  name: 'Versuni Factory - Netherlands',
+  name: 'Contoso Factory - Netherlands',
   type: 'site',
   properties: [
     { key: 'location', value: 'Amsterdam' },

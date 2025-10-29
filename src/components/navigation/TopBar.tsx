@@ -138,12 +138,12 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         <div className="hidden md:flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-versuni-primary flex items-center justify-center text-white font-bold">
-            V
+            C
           </div>
-          <span className="font-semibold text-lg">Versuni Frontline</span>
+          <span className="font-semibold text-lg">Contoso Factory</span>
         </div>
         <div className="md:hidden">
-          <span className="font-semibold">Versuni</span>
+          <span className="font-semibold">Contoso</span>
         </div>
       </div>
 

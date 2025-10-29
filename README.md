@@ -1,4 +1,4 @@
-# Versuni Frontline PWA demo
+# Contoso Factory PWA Demo
 
 Production-ready **React + TypeScript + Vite** Progressive Web App for frontline manufacturing workers, powered by **Azure AI Foundry Agent Service**.
 

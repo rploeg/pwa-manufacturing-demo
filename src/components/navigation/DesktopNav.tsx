@@ -269,7 +269,7 @@ export function DesktopNav() {
   return (
     <nav className="h-full flex flex-col py-4">
       <div className="px-4 mb-6">
-        <h1 className="text-xl font-bold text-versuni-primary">Versuni</h1>
+        <h1 className="text-xl font-bold text-versuni-primary">Contoso Factory</h1>
         <p className="text-xs text-muted-foreground">Frontline Assistant</p>
         <p className="text-xs text-versuni-primary mt-1 font-medium capitalize">
           {currentRole.replace('-', ' ')}

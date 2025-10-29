@@ -1,6 +1,6 @@
-# Versuni Frontline - Complete Demo Guide
+# Contoso Factory - Complete Demo Guide
 
-This comprehensive guide provides step-by-step walkthroughs for ALL features and scenarios in the Versuni Frontline PWA manufacturing solution.
+This comprehensive guide provides step-by-step walkthroughs for ALL features and scenarios in the Contoso Factory frontline PWA manufacturing solution.
 
 ## 📋 Table of Contents
 
@@ -1952,8 +1952,8 @@ Enable/disable scenarios in Settings:
 ## 📞 Support & Resources
 
 ### For Demo Support
-- Contact: Versuni AI Team
-- Email: ai-team@versuni.com
+- Contact: Contoso Factory AI Team
+- Email: ai-team@contoso.com
 - Training sessions available
 - Customization services
 

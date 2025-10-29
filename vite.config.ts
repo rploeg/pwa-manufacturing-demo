@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Versuni Frontline',
-        short_name: 'Versuni',
+        name: 'Contoso Factory Frontline',
+        short_name: 'Contoso',
         description: 'Frontline worker assistant powered by Azure AI',
         theme_color: '#002F6C',
         background_color: '#ffffff',

@@ -101,7 +101,7 @@ export function HomePage() {
                 AI-Powered Manufacturing
               </span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">Versuni Frontline Assistant</h1>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">Contoso Factory Assistant</h1>
             <p className="text-lg md:text-xl text-blue-100 mb-6 max-w-2xl">
               Intelligent manufacturing insights powered by Azure AI Foundry multi-agent system
             </p>
