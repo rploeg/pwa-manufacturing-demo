@@ -103,11 +103,14 @@ export function TwinPage() {
         const firstLine = first.children[0];
         // If the line has machines, select the first machine
         if (firstLine.children && firstLine.children.length > 0) {
+          console.log('Auto-selecting first machine:', firstLine.children[0]);
           setSelectedNode(firstLine.children[0]);
         } else {
+          console.log('Auto-selecting first line:', firstLine);
           setSelectedNode(firstLine);
         }
       } else {
+        console.log('Auto-selecting site:', first);
         setSelectedNode(first);
       }
     }
@@ -275,6 +278,7 @@ export function TwinPage() {
                 selectedId={selectedNode?.id || null}
                 expandedIds={expandedIds}
                 onSelect={(id) => {
+                  console.log('Node selected:', id);
                   const findNode = (nodes: TwinNode[]): TwinNode | null => {
                     for (const n of nodes) {
                       if (n.id === id) return n;
@@ -286,6 +290,7 @@ export function TwinPage() {
                     return null;
                   };
                   const node = findNode(twinHierarchy);
+                  console.log('Found node:', node);
                   if (node) setSelectedNode(node);
                 }}
                 onToggle={handleToggle}
