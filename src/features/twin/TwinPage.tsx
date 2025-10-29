@@ -13,11 +13,15 @@ import {
   User,
   Loader2,
   Sparkles,
+  Layers,
+  Grid3X3,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Markdown } from '@/components/ui/markdown';
 import { TwinTreeNode } from './TwinTreeNode';
+import { TwinVisualization3DWrapper } from './components/TwinVisualization3DWrapper';
 import { digitalTwin } from '@/data/clients/twin';
 import { agentService } from '@/data/clients/agent';
 import type { TwinNode, LiveMetric, Alarm, AgentMessage } from '@/data/types';
@@ -30,6 +34,7 @@ export function TwinPage() {
   const [liveMetrics, setLiveMetrics] = useState<LiveMetric[]>([]);
   const [alarms, setAlarms] = useState<Alarm[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [view3D, setView3D] = useState(false);
 
   // Agent panel state
   const [showAgentPanel, setShowAgentPanel] = useState(false);
@@ -42,6 +47,7 @@ export function TwinPage() {
 
   useEffect(() => {
     loadTwinHierarchy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -287,13 +293,47 @@ export function TwinPage() {
           </div>
         ) : (
           <div className="max-w-5xl mx-auto space-y-6">
-            {/* Node Header */}
-            <div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-                <span className="capitalize">{selectedNode.type}</span>
+            {/* Node Header with 3D Toggle */}
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                  <span className="capitalize">{selectedNode.type}</span>
+                </div>
+                <h1 className="text-3xl font-bold">{selectedNode.name}</h1>
               </div>
-              <h1 className="text-3xl font-bold">{selectedNode.name}</h1>
+
+              {/* 3D View Toggle */}
+              {selectedNode.type === 'site' && (
+                <div className="flex gap-2">
+                  <Button
+                    variant={!view3D ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setView3D(false)}
+                  >
+                    <Grid3X3 className="w-4 h-4 mr-2" />
+                    Grid View
+                  </Button>
+                  <Button
+                    variant={view3D ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setView3D(true)}
+                  >
+                    <Layers className="w-4 h-4 mr-2" />
+                    3D View
+                  </Button>
+                </div>
+              )}
             </div>
+
+            {/* 3D Visualization */}
+            {view3D && selectedNode.type === 'site' && selectedNode.children && (
+              <div className="relative">
+                <TwinVisualization3DWrapper
+                  nodes={selectedNode.children.flatMap((line) => line.children || [])}
+                  onNodeClick={(node: TwinNode) => setSelectedNode(node)}
+                />
+              </div>
+            )}
 
             {/* Alarms */}
             {alarms.length > 0 && (
@@ -486,13 +526,17 @@ export function TwinPage() {
                               : 'bg-background border'
                           }`}
                         >
-                          <div className="text-sm whitespace-pre-wrap">
-                            {msg.content}
-                            {isAgentStreaming &&
-                              msg.id === agentMessages[agentMessages.length - 1]?.id && (
-                                <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse" />
-                              )}
-                          </div>
+                          {msg.role === 'user' ? (
+                            <div className="text-sm whitespace-pre-wrap">{msg.content}</div>
+                          ) : (
+                            <div className="text-sm">
+                              <Markdown>{msg.content}</Markdown>
+                              {isAgentStreaming &&
+                                msg.id === agentMessages[agentMessages.length - 1]?.id && (
+                                  <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse" />
+                                )}
+                            </div>
+                          )}
                         </div>
                         {msg.role === 'user' && (
                           <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">

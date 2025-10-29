@@ -17,6 +17,8 @@ import {
   Zap,
   Target,
   Activity,
+  DollarSign,
+  BarChart3,
 } from 'lucide-react';
 
 export function HomePage() {
@@ -54,6 +56,30 @@ export function HomePage() {
       path: '/planning',
       gradient: 'from-indigo-500 to-purple-500',
       stats: { label: 'On-Time', value: '80%', trend: '4/5' },
+    },
+    {
+      icon: TrendingUp,
+      title: 'Yield Prediction',
+      description: 'AI-powered yield forecasting & loss prevention',
+      path: '/yield-prediction',
+      gradient: 'from-green-500 to-emerald-500',
+      stats: { label: 'Forecast', value: '87%', trend: '+3%' },
+    },
+    {
+      icon: BarChart3,
+      title: 'Line Balancing',
+      description: 'Optimize workload & eliminate bottlenecks',
+      path: '/line-balancing',
+      gradient: 'from-orange-500 to-red-500',
+      stats: { label: 'Efficiency', value: '78%', trend: '+18%' },
+    },
+    {
+      icon: DollarSign,
+      title: 'Maintenance Cost AI',
+      description: 'Cost-benefit analysis & spare parts optimization',
+      path: '/maintenance-cost',
+      gradient: 'from-indigo-600 to-purple-600',
+      stats: { label: 'Savings', value: '$47K', trend: 'YTD' },
     },
   ];
 

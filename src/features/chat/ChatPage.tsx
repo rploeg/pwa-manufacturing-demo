@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { agentService } from '@/data/clients/agent';
 import { autonomousService, type AutonomousEvent } from '@/data/clients/autonomous';
 import type { AgentMessage, AgentDefinition } from '@/data/types';
+import { Markdown } from '@/components/ui/markdown';
 
 export function ChatPage() {
   const [selectedAgent, setSelectedAgent] = useState<string>('orchestrator');
@@ -277,14 +278,16 @@ export function ChatPage() {
                             {message.agentName}
                           </div>
                         )}
-                        <div className="text-sm whitespace-pre-wrap">
-                          {message.content}
-                          {message.role === 'assistant' &&
-                            message.content === '' &&
-                            isStreaming && (
+                        {message.role === 'user' ? (
+                          <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                        ) : (
+                          <div className="text-sm">
+                            <Markdown>{message.content}</Markdown>
+                            {message.content === '' && isStreaming && (
                               <span className="inline-block w-2 h-4 bg-current animate-pulse ml-1" />
                             )}
-                        </div>
+                          </div>
+                        )}
                       </Card>
                       {message.role === 'user' && (
                         <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
@@ -426,6 +429,18 @@ export function ChatPage() {
                             </div>
                             {event.details && (
                               <div className="mt-2 text-xs space-y-0.5">
+                                {event.details.workOrderId && (
+                                  <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded border border-green-200 dark:border-green-800">
+                                    <span className="text-green-700 dark:text-green-300 font-semibold">
+                                      🎫 Work Order Created: {event.details.workOrderId}
+                                    </span>
+                                    {event.details.actionTaken && (
+                                      <p className="mt-1 text-green-600 dark:text-green-400">
+                                        {event.details.actionTaken}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
                                 {event.details.metric && (
                                   <div>
                                     <span className="text-muted-foreground">Metric: </span>

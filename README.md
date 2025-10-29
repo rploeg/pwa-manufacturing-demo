@@ -10,6 +10,7 @@ Production-ready **React + TypeScript + Vite** Progressive Web App for frontline
 - ✅ **Digital Twin** – Real-time manufacturing context (sites → lines → machines → sensors)
 - ✅ **Voice Handovers** – Record → Transcribe → Summarize → Action Items
 - ✅ **Guided Scenarios** – Quality checks, maintenance, downtime analysis
+- ✅ **AI Manufacturing Suite** – 7 advanced AI scenarios (Yield Prediction, Line Balancing, Maintenance Cost Optimization, etc.)
 - ✅ **Responsive Design** – Phone, tablet, and desktop layouts
 - ✅ **Offline-first** – IndexedDB caching with sync queue
 - ✅ **TypeScript** – Full type safety with strict mode
@@ -321,6 +322,18 @@ t('home.welcome'); // "Welcome"
 4. **"Create PM task for Machine M after 1200 cycles"** → Action card
 5. **"Summarize shift handover for Line-A"** → Voice → summary
 6. **"Temperature trend on Filler-3"** → Live chart with anomalies
+
+### 🤖 AI Manufacturing Scenarios (NEW)
+
+See [DEMO_GUIDE.md](./DEMO_GUIDE.md) for detailed scenario walkthroughs.
+
+- **Yield Prediction & Loss Prevention** - Real-time forecasting, material quality scoring, early warnings
+- **Intelligent Scheduling** - Multi-constraint optimization, what-if scenarios, conflict detection
+- **Line Balancing AI** - Bottleneck detection, workload optimization, simulation
+- **Maintenance Cost Optimization** - Cost-benefit analysis, spare parts forecasting, ROI comparison
+- **Operator Performance Analytics** - Skill gap analysis, personalized coaching
+- **Environmental Compliance AI** - Carbon tracking, energy optimization
+- **Changeover Optimization** - SMED analysis, best practice sharing
 
 ## 🐛 Troubleshooting
 

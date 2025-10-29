@@ -1,9 +1,21 @@
 import { useState } from 'react';
-import { CheckCircle, XCircle, AlertTriangle, Plus, Filter, TrendingUp } from 'lucide-react';
+import {
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Plus,
+  Filter,
+  TrendingUp,
+  Camera,
+  Upload,
+  Sparkles,
+  Loader2,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
+import { visionAI, type VisionInspectionResult } from '@/services/visionAI';
 import type { QualityChecklist, Defect } from '@/data/types';
 
 // Mock data
@@ -125,10 +137,15 @@ const mockDefects: Defect[] = [
 
 export function QualityPage() {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<'checklists' | 'defects'>('checklists');
+  const [activeTab, setActiveTab] = useState<'checklists' | 'defects' | 'vision-ai'>('checklists');
   const [selectedChecklist, setSelectedChecklist] = useState<QualityChecklist | null>(null);
   const [checklists, setChecklists] = useState<QualityChecklist[]>(mockChecklists);
   const [defects, setDefects] = useState<Defect[]>(mockDefects);
+
+  // Vision AI state
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [visionResult, setVisionResult] = useState<VisionInspectionResult | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleCheckResult = (
     checklistId: string,
@@ -258,6 +275,78 @@ export function QualityPage() {
     });
   };
 
+  // Vision AI handlers
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Create object URL for preview
+    const imageUrl = URL.createObjectURL(file);
+    setSelectedImage(imageUrl);
+    setIsAnalyzing(true);
+    setVisionResult(null);
+
+    try {
+      // Analyze image with Vision AI
+      const result = await visionAI.analyzeImage(imageUrl);
+      setVisionResult(result);
+
+      // Auto-create defects from critical findings
+      if (!result.overallPass) {
+        const criticalDefects = result.defectsDetected.filter((d) => d.severity === 'critical');
+        criticalDefects.forEach((defect) => {
+          const newDefect: Defect = {
+            id: `defect-${Date.now()}-${Math.random()}`,
+            category: defect.type,
+            severity: defect.severity,
+            description: `${defect.description} (AI detected - ${(defect.confidence * 100).toFixed(1)}% confidence)`,
+            quantity: 1,
+            timestamp: new Date(),
+          };
+          setDefects((prev) => [newDefect, ...prev]);
+        });
+      }
+
+      toast({
+        title: result.overallPass ? 'Inspection Passed' : 'Defects Detected',
+        description: result.overallPass
+          ? `Quality score: ${result.qualityScore}/100`
+          : `${result.defectsDetected.length} defect(s) found`,
+      });
+    } catch (error) {
+      console.error('Vision AI analysis failed:', error);
+      toast({
+        title: 'Analysis Failed',
+        description: 'Could not analyze image. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleUseSampleImage = async (_sampleId: string) => {
+    // Use a mock sample image URL
+    const sampleUrl = `https://placeholder.com/sample-product-${Date.now()}.jpg`;
+    setSelectedImage(sampleUrl);
+    setIsAnalyzing(true);
+    setVisionResult(null);
+
+    try {
+      const result = await visionAI.analyzeImage(sampleUrl);
+      setVisionResult(result);
+
+      toast({
+        title: 'Sample Image Analyzed',
+        description: `Quality score: ${result.qualityScore}/100`,
+      });
+    } catch (error) {
+      console.error('Vision AI analysis failed:', error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   const getSeverityColor = (severity: Defect['severity']) => {
     switch (severity) {
       case 'critical':
@@ -352,7 +441,186 @@ export function QualityPage() {
         >
           Defects
         </button>
+        <button
+          onClick={() => {
+            setActiveTab('vision-ai');
+          }}
+          className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${
+            activeTab === 'vision-ai'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Vision AI
+        </button>
       </div>
+
+      {/* Vision AI Tab */}
+      {activeTab === 'vision-ai' && (
+        <div className="space-y-6">
+          <Card className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold">AI-Powered Visual Inspection</h2>
+                <p className="text-sm text-muted-foreground">
+                  Upload product images for automatic defect detection
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Upload Section */}
+              <div className="space-y-4">
+                <div className="border-2 border-dashed rounded-lg p-8 text-center">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="image-upload"
+                  />
+                  <label htmlFor="image-upload" className="cursor-pointer">
+                    <Upload className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+                    <p className="text-sm font-medium mb-1">Click to upload image</p>
+                    <p className="text-xs text-muted-foreground">PNG, JPG up to 10MB</p>
+                  </label>
+                </div>
+
+                <Button
+                  onClick={() => handleUseSampleImage('sample-1')}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Use Sample Image
+                </Button>
+
+                {isAnalyzing && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Analyzing image with AI...
+                  </div>
+                )}
+              </div>
+
+              {/* Results Section */}
+              <div>
+                {selectedImage && (
+                  <div className="space-y-4">
+                    <div className="relative rounded-lg overflow-hidden border">
+                      <img src={selectedImage} alt="Inspection" className="w-full h-auto" />
+                      {visionResult?.defectsDetected.map((defect, idx) => (
+                        <div
+                          key={idx}
+                          className="absolute border-2 border-red-500"
+                          style={{
+                            left: `${defect.boundingBox.x}%`,
+                            top: `${defect.boundingBox.y}%`,
+                            width: `${defect.boundingBox.width}%`,
+                            height: `${defect.boundingBox.height}%`,
+                          }}
+                        >
+                          <div className="absolute -top-6 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                            {defect.type} ({(defect.confidence * 100).toFixed(0)}%)
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {visionResult && (
+                      <Card className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium">Quality Score</span>
+                            <span className="text-2xl font-bold">
+                              {visionResult.qualityScore}/100
+                            </span>
+                          </div>
+                          <Progress value={visionResult.qualityScore} />
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">Overall Result</span>
+                            <span
+                              className={`font-semibold ${visionResult.overallPass ? 'text-green-600' : 'text-red-600'}`}
+                            >
+                              {visionResult.overallPass ? 'PASS' : 'FAIL'}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">Processing Time</span>
+                            <span>{visionResult.processingTimeMs}ms</span>
+                          </div>
+                        </div>
+                      </Card>
+                    )}
+                  </div>
+                )}
+
+                {!selectedImage && !isAnalyzing && (
+                  <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+                    <div>
+                      <Camera className="w-16 h-16 mx-auto mb-3 opacity-50" />
+                      <p>Upload an image to start inspection</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Defects Detected */}
+            {visionResult && visionResult.defectsDetected.length > 0 && (
+              <div className="mt-6">
+                <h3 className="font-semibold mb-3">
+                  Defects Detected ({visionResult.defectsDetected.length})
+                </h3>
+                <div className="space-y-2">
+                  {visionResult.defectsDetected.map((defect, idx) => (
+                    <Card
+                      key={idx}
+                      className={`p-3 border-l-4 ${
+                        defect.severity === 'critical'
+                          ? 'border-l-red-500 bg-red-50'
+                          : defect.severity === 'major'
+                            ? 'border-l-orange-500 bg-orange-50'
+                            : 'border-l-yellow-500 bg-yellow-50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold text-sm capitalize">
+                              {defect.type.replace('-', ' ')}
+                            </span>
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                defect.severity === 'critical'
+                                  ? 'bg-red-200 text-red-700'
+                                  : defect.severity === 'major'
+                                    ? 'bg-orange-200 text-orange-700'
+                                    : 'bg-yellow-200 text-yellow-700'
+                              }`}
+                            >
+                              {defect.severity.toUpperCase()}
+                            </span>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-1">{defect.description}</p>
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            <span>Confidence: {(defect.confidence * 100).toFixed(1)}%</span>
+                            <span>Model: {defect.aiModel}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+          </Card>
+        </div>
+      )}
 
       {/* Checklists Tab */}
       {activeTab === 'checklists' && (

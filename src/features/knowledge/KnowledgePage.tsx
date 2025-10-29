@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Search,
   BookOpen,
@@ -9,18 +9,30 @@ import {
   ThumbsUp,
   Eye,
   Filter,
+  Sparkles,
+  Send,
+  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { knowledgeService } from '@/data/clients/knowledge';
+import { agentService } from '@/data/clients/agent';
 import type { KnowledgeArticle } from '@/data/types';
+import { Markdown } from '@/components/ui/markdown';
 
 export function KnowledgePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedArticle, setSelectedArticle] = useState<KnowledgeArticle | null>(null);
   const [articles, setArticles] = useState<KnowledgeArticle[]>([]);
+
+  // AI Assistant state
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [aiInput, setAIInput] = useState('How do I find SOPs for Line-B?');
+  const [aiResponse, setAIResponse] = useState('');
+  const [isAILoading, setIsAILoading] = useState(false);
+  const aiResponseRef = useRef<HTMLDivElement>(null);
 
   // Load articles
   useEffect(() => {
@@ -72,6 +84,60 @@ export function KnowledgePage() {
     await handleMarkHelpful(articleId);
   };
 
+  const handleAIAssist = async () => {
+    if (!aiInput.trim() || isAILoading) return;
+
+    setIsAILoading(true);
+    setAIResponse('');
+
+    try {
+      // Build context with available articles
+      const context = `
+You are a Knowledge Base assistant helping frontline workers find information.
+
+User Question: ${aiInput}
+
+Knowledge Base Summary:
+- Total articles: ${articles.length}
+- Categories: SOPs, Troubleshooting, Quick Fixes, Notes
+- Recent articles available on various topics
+
+Please help the user find relevant articles or information.
+`.trim();
+
+      const stream = agentService.streamOrchestrator({
+        messages: [
+          {
+            id: `msg-${Date.now()}`,
+            role: 'user',
+            content: context,
+            timestamp: new Date(),
+          },
+        ],
+      });
+
+      for await (const chunk of stream) {
+        if (chunk.done) break;
+        setAIResponse((prev) => prev + chunk.delta);
+        // Auto scroll
+        if (aiResponseRef.current) {
+          aiResponseRef.current.scrollTop = aiResponseRef.current.scrollHeight;
+        }
+      }
+    } catch (error) {
+      console.error('AI error:', error);
+      setAIResponse('Sorry, I encountered an error. Please try again.');
+    } finally {
+      setIsAILoading(false);
+    }
+  };
+
+  const handleAISend = () => {
+    if (aiInput.trim()) {
+      handleAIAssist();
+    }
+  };
+
   const getCategoryIcon = (category: string) => {
     const cat = categories.find((c) => c.value === category);
     const Icon = cat?.icon || BookOpen;
@@ -96,12 +162,69 @@ export function KnowledgePage() {
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Knowledge Base</h1>
-        <p className="text-muted-foreground">
-          SOPs, troubleshooting guides, quick fixes, and team notes
-        </p>
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Knowledge Base</h1>
+          <p className="text-muted-foreground">
+            SOPs, troubleshooting guides, quick fixes, and team notes
+          </p>
+        </div>
+
+        {/* AI Assistant Toggle */}
+        <Button
+          onClick={() => setShowAIAssistant(!showAIAssistant)}
+          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+        >
+          <Sparkles className="w-4 h-4 mr-2" />
+          {showAIAssistant ? 'Hide' : 'Ask'} AI Assistant
+        </Button>
       </div>
+
+      {/* AI Assistant Panel */}
+      {showAIAssistant && (
+        <Card className="p-4 mb-6 bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+            <h3 className="font-semibold text-purple-900">AI Knowledge Assistant</h3>
+          </div>
+          <p className="text-sm text-purple-700 mb-3">
+            Ask questions about procedures, troubleshooting, or find relevant articles.
+          </p>
+
+          {/* AI Input */}
+          <div className="flex gap-2 mb-3">
+            <Input
+              value={aiInput}
+              onChange={(e) => setAIInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleAISend()}
+              placeholder="Ask about procedures, machines, or issues..."
+              className="flex-1 bg-white"
+              disabled={isAILoading}
+            />
+            <Button
+              onClick={handleAISend}
+              disabled={isAILoading || !aiInput.trim()}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              {isAILoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
+
+          {/* AI Response */}
+          {aiResponse && (
+            <div
+              ref={aiResponseRef}
+              className="bg-white rounded-lg p-4 max-h-64 overflow-y-auto border border-purple-200"
+            >
+              <Markdown>{aiResponse}</Markdown>
+            </div>
+          )}
+        </Card>
+      )}
 
       {/* Search */}
       <Card className="p-4 mb-6">

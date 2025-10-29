@@ -5,6 +5,7 @@
  */
 
 import { digitalTwin } from './twin';
+import { workOrderService } from '@/services/workOrderService';
 
 export interface AutonomousEvent {
   id: string;
@@ -239,9 +240,19 @@ class AutonomousMonitoringService {
           },
         });
 
-        // 3. Agent analyzes and plans maintenance
+        // 3. Automatically create work order
         setTimeout(() => {
-          const workOrderId = `WO-${Date.now()}`;
+          const workOrder = workOrderService.createAutonomousWorkOrder({
+            machineId: node.id || 'unknown',
+            machineName: node.name,
+            anomalyType: 'temperature',
+            metric: 'Temperature',
+            value,
+            threshold: max,
+            confidence: 0.95,
+            severity: 'critical',
+          });
+
           this.emitEvent({
             id: (Date.now() + 2).toString(),
             timestamp: new Date(),
@@ -249,11 +260,10 @@ class AutonomousMonitoringService {
             severity: 'warning',
             equipment: node.name,
             location,
-            message: `📋 Emergency maintenance work order created - Cooling system inspection required. Technician John Smith assigned with 30-minute response time.`,
+            message: `📋 Work Order ${workOrder.id} automatically created - Cooling system inspection required. Priority: ${workOrder.priority.toUpperCase()}. Estimated duration: ${workOrder.estimatedDuration} minutes.`,
             details: {
-              workOrderId,
-              actionTaken:
-                'Urgent WO created: Inspect cooling fans, check thermal sensors, verify coolant levels. Priority: Critical.',
+              workOrderId: workOrder.id,
+              actionTaken: `Work order created with ${workOrder.parts?.length || 0} suggested parts. Due: ${workOrder.dueDate?.toLocaleString()}`,
             },
           });
 
@@ -352,6 +362,35 @@ class AutonomousMonitoringService {
             agentTriggered: 'OEE Analyst',
           },
         });
+
+        // Agent identifies issue and plans action
+        setTimeout(() => {
+          // Create work order for bearing inspection
+          const workOrder = workOrderService.createAutonomousWorkOrder({
+            machineId: node.id || 'unknown',
+            machineName: node.name,
+            anomalyType: 'speed',
+            metric: 'Speed',
+            value,
+            threshold: max,
+            confidence: 0.88,
+            severity: 'medium',
+          });
+
+          this.emitEvent({
+            id: (Date.now() + 2).toString(),
+            timestamp: new Date(),
+            type: 'action_planned',
+            severity: 'info',
+            equipment: node.name,
+            location,
+            message: `💡 Root cause identified: Bearing friction increase (2.3x normal). Early stage wear pattern detected. Work Order ${workOrder.id} created for bearing inspection.`,
+            details: {
+              workOrderId: workOrder.id,
+              actionTaken: `Predictive maintenance scheduled. Priority: ${workOrder.priority}. Assigned to: ${workOrder.assignedTo}. Estimated duration: ${workOrder.estimatedDuration} minutes.`,
+            },
+          });
+        }, 2500);
       }, 1500);
     } else if (value < min) {
       const cooldownKeyLow = `speed-low-${node.id}`;
@@ -384,6 +423,12 @@ class AutonomousMonitoringService {
   private async checkOEEAnomaly(node: any, location: string, value: number): Promise<void> {
     const { min } = this.config.anomalyThresholds.oee;
     const cooldownKey = `oee-${node.id}`;
+
+    // Don't trigger OEE anomaly if line/equipment is stopped (status check)
+    const statusProp = node.properties?.find((p: any) => p.key === 'status');
+    if (statusProp && statusProp.value === 'stopped') {
+      return; // Skip OEE check for stopped equipment
+    }
 
     if (value < min) {
       if (this.isOnCooldown(cooldownKey)) {
@@ -424,6 +469,18 @@ class AutonomousMonitoringService {
 
         // Agent identifies issue and plans action
         setTimeout(() => {
+          // Create work order for belt maintenance
+          const workOrder = workOrderService.createAutonomousWorkOrder({
+            machineId: node.id || 'unknown',
+            machineName: node.name,
+            anomalyType: 'oee',
+            metric: 'OEE',
+            value,
+            threshold: min,
+            confidence: 0.91,
+            severity: 'medium',
+          });
+
           this.emitEvent({
             id: (Date.now() + 2).toString(),
             timestamp: new Date(),
@@ -431,10 +488,10 @@ class AutonomousMonitoringService {
             severity: 'info',
             equipment: node.name,
             location,
-            message: `💡 Root cause analysis complete: Frequent micro-stops detected (avg 3-5 seconds each). Primary cause: Belt tension drift causing feed inconsistency. Recommended corrective action: Belt tension adjustment and guide alignment check.`,
+            message: `💡 Root cause analysis complete: Frequent micro-stops detected. Primary cause: Belt tension drift causing feed inconsistency. Work Order ${workOrder.id} created for corrective maintenance.`,
             details: {
-              actionTaken:
-                'Preventive maintenance task created and added to backlog. Scheduled for next planned downtime window (next shift changeover). Estimated fix time: 15 minutes.',
+              workOrderId: workOrder.id,
+              actionTaken: `Preventive maintenance scheduled. Priority: ${workOrder.priority}. Due: ${workOrder.dueDate?.toLocaleString()}. Estimated fix time: ${workOrder.estimatedDuration} minutes.`,
             },
           });
         }, 2500);

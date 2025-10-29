@@ -5,6 +5,7 @@ import { AuthProvider } from '@/features/auth/AuthProvider';
 import { Router } from './Router';
 import { env } from '@/data/config';
 import { useEffect } from 'react';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 // Initialize MSW for mocking if enabled
 if (env.useMocks) {
@@ -42,11 +43,13 @@ export function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router />
-        <Toaster />
-      </AuthProvider>
-      {env.env === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
+      <LanguageProvider>
+        <AuthProvider>
+          <Router />
+          <Toaster />
+        </AuthProvider>
+        {env.env === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

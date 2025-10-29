@@ -16,6 +16,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { agentService } from '@/data/clients/agent';
+import { Markdown } from '@/components/ui/markdown';
 
 interface SafetyIncident {
   id: string;
@@ -408,9 +409,7 @@ Focus your analysis on workplace safety, not production or equipment issues.`;
 
         {aiAnalysis && (
           <div className="mt-4 p-4 bg-white dark:bg-gray-900 rounded-lg border">
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <div className="whitespace-pre-wrap">{aiAnalysis}</div>
-            </div>
+            <Markdown>{aiAnalysis}</Markdown>
           </div>
         )}
 
