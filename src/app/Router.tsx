@@ -31,7 +31,7 @@ import { MaintenanceCostPage } from '@/features/maintenance-cost/MaintenanceCost
 
 export function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/pwa-manufacturing-demo">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="/home" replace />} />
