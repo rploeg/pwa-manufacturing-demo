@@ -78,6 +78,7 @@ export function TwinPage() {
       setIsLoading(true);
       // Use search to get all nodes
       const nodes = await digitalTwin.search('');
+      console.log('Loaded twin hierarchy:', nodes);
       setTwinHierarchy(nodes);
       // Auto-expand first level
       if (nodes.length > 0) {
@@ -87,6 +88,8 @@ export function TwinPage() {
       }
     } catch (error) {
       console.error('Failed to load twin hierarchy:', error);
+      // Set empty hierarchy on error so UI doesn't hang
+      setTwinHierarchy([]);
     } finally {
       setIsLoading(false);
     }
@@ -95,8 +98,15 @@ export function TwinPage() {
   const selectFirstNode = (nodes: TwinNode[]) => {
     if (nodes.length > 0) {
       const first = nodes[0];
+      // For site nodes, select the first line
       if (first.children && first.children.length > 0) {
-        setSelectedNode(first.children[0]);
+        const firstLine = first.children[0];
+        // If the line has machines, select the first machine
+        if (firstLine.children && firstLine.children.length > 0) {
+          setSelectedNode(firstLine.children[0]);
+        } else {
+          setSelectedNode(firstLine);
+        }
       } else {
         setSelectedNode(first);
       }
@@ -287,7 +297,12 @@ export function TwinPage() {
 
       {/* Right Panel - Details */}
       <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        {!selectedNode ? (
+        {isLoading ? (
+          <div className="text-center py-12 text-muted-foreground">
+            <Loader2 className="w-8 h-8 mx-auto mb-4 animate-spin" />
+            <p>Loading digital twin...</p>
+          </div>
+        ) : !selectedNode ? (
           <div className="text-center py-12 text-muted-foreground">
             <p>Select a node from the tree to view details</p>
           </div>
