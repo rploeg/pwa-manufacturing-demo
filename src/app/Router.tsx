@@ -30,8 +30,10 @@ import { LineBalancingPage } from '@/features/line-balancing/LineBalancingPage';
 import { MaintenanceCostPage } from '@/features/maintenance-cost/MaintenanceCostPage';
 
 export function Router() {
+  const basename = import.meta.env.PROD ? '/pwa-manufacturing-demo' : '/';
+  
   return (
-    <BrowserRouter basename="/pwa-manufacturing-demo">
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="/home" replace />} />
