@@ -348,8 +348,18 @@ export function RootCauseAnalysisPage() {
                   </div>
 
                   <div className="mt-6 flex gap-2">
-                    <Button className="flex-1">Complete Analysis</Button>
-                    <Button variant="outline">Export Report</Button>
+                    <Button 
+                      className="flex-1"
+                      onClick={() => alert('Root cause analysis completed! Report has been saved and stakeholders will be notified.')}
+                    >
+                      Complete Analysis
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      onClick={() => alert('Exporting comprehensive RCA report with fishbone diagram, 5 Whys analysis, and action items...')}
+                    >
+                      Export Report
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -392,8 +392,17 @@ export function TraceabilityPage() {
 
               {/* Actions */}
               <div className="flex gap-2 pt-4 border-t">
-                <Button className="flex-1">Export Full Report</Button>
-                <Button variant="outline" className="flex-1">
+                <Button 
+                  className="flex-1"
+                  onClick={() => alert('Exporting complete traceability report including all materials, processes, and quality records...')}
+                >
+                  Export Full Report
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => alert('Printing product label with QR code and batch information...')}
+                >
                   Print Label
                 </Button>
               </div>

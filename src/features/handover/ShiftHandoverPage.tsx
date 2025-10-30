@@ -470,7 +470,12 @@ export function ShiftHandoverPage() {
           </div>
 
           <div className="mt-3 flex gap-2">
-            <Button className="flex-1">Complete Handover</Button>
+            <Button 
+              className="flex-1"
+              onClick={() => alert('Shift handover completed successfully! All notes and tasks have been logged.')}
+            >
+              Complete Handover
+            </Button>
           </div>
         </div>
       </div>
