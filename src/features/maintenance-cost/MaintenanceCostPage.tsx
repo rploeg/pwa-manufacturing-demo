@@ -293,14 +293,14 @@ export const MaintenanceCostPage: React.FC = () => {
                 <Button 
                   variant="outline"
                   onClick={() => {
-                    alert(`Deferred: ${decision.equipment} - ${decision.task}`);
+                    alert(`Deferred: ${task.equipmentName} - ${task.description}`);
                   }}
                 >
                   Defer
                 </Button>
                 <Button
                   onClick={() => {
-                    alert(`Scheduled: ${decision.equipment} - ${decision.task}\nOptimal Date: ${decision.optimalDate?.toLocaleDateString() || 'TBD'}`);
+                    alert(`Scheduled: ${task.equipmentName} - ${task.description}\nOptimal Date: ${decision.optimalDate?.toLocaleDateString() || 'TBD'}`);
                   }}
                 >
                   Schedule Maintenance
