@@ -54,6 +54,12 @@ interface NavGroup {
 // Root-level navigation items (always visible, no grouping)
 const rootNavItems: NavItem[] = [
   { path: '/home', icon: Home, labelKey: 'nav.home' },
+  {
+    path: '/ai-scenarios',
+    icon: Sparkles,
+    labelKey: 'nav.aiScenarios',
+    featureFlag: 'aiAssistant',
+  },
   { path: '/chat', icon: MessageSquare, labelKey: 'nav.agents', featureFlag: 'multiAgent' },
 ];
 
@@ -195,12 +201,6 @@ const navGroups: NavGroup[] = [
     icon: Cpu,
     items: [
       { path: '/knowledge', icon: BookOpen, labelKey: 'nav.knowledge', featureFlag: 'aiAssistant' },
-      {
-        path: '/ai-scenarios',
-        icon: Sparkles,
-        labelKey: 'nav.aiScenarios',
-        featureFlag: 'aiAssistant',
-      },
     ],
   },
   {
@@ -220,7 +220,7 @@ const navGroups: NavGroup[] = [
 ];
 
 export function DesktopNav() {
-  const { isFeatureEnabled, currentRole } = useFeatureFlags();
+  const { isFeatureEnabled } = useFeatureFlags();
   const { t } = useLanguage();
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => {
     // Load from localStorage or default to all expanded
@@ -268,16 +268,8 @@ export function DesktopNav() {
 
   return (
     <nav className="h-full flex flex-col py-4">
-      <div className="px-4 mb-6">
-        <h1 className="text-xl font-bold text-versuni-primary">Contoso Factory</h1>
-        <p className="text-xs text-muted-foreground">Frontline Assistant</p>
-        <p className="text-xs text-versuni-primary mt-1 font-medium capitalize">
-          {currentRole.replace('-', ' ')}
-        </p>
-      </div>
-
       <div className="flex-1 px-2 overflow-y-auto">
-        <div className="space-y-2">
+        <div className="space-y-2">{/* Root Navigation Items */}
           {/* Root Navigation Items */}
           <div className="space-y-0.5 mb-4">
             {visibleRootItems.map((item) => {

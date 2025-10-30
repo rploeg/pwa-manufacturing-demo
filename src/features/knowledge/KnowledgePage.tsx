@@ -37,12 +37,13 @@ export function KnowledgePage() {
   // Load articles
   useEffect(() => {
     loadArticles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, searchQuery]);
 
   const loadArticles = async () => {
     try {
       const results = await knowledgeService.search(searchQuery, {
-        category: selectedCategory === 'all' ? undefined : (selectedCategory as any),
+        category: selectedCategory === 'all' ? undefined : (selectedCategory as 'sop' | 'troubleshooting' | 'note' | 'fix'),
       });
       setArticles(results);
     } catch (error) {

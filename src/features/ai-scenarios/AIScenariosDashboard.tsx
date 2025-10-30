@@ -8,6 +8,12 @@ import {
   ArrowRight,
   Zap,
   BarChart,
+  RefreshCw,
+  ClipboardCheck,
+  AlertTriangle,
+  Brain,
+  BookOpen,
+  Trophy,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -114,12 +120,109 @@ export function AIScenariosDashboard() {
       },
       status: 'implemented',
     },
+    {
+      id: 'changeover',
+      title: 'Changeover Optimization (SMED)',
+      description:
+        'AI-powered SMED analysis with automated recommendations for reducing changeover time',
+      icon: RefreshCw,
+      color: 'from-blue-500 to-indigo-500',
+      path: '/changeover',
+      category: 'production',
+      metrics: {
+        improvement: '28 min saved',
+        savings: 'Faster setup',
+        roi: '4 months',
+      },
+      status: 'implemented',
+    },
+    {
+      id: 'quality',
+      title: 'Quality Intelligence',
+      description:
+        'Real-time quality monitoring with AI-powered defect prediction and root cause analysis',
+      icon: ClipboardCheck,
+      color: 'from-cyan-500 to-blue-500',
+      path: '/quality',
+      category: 'production',
+      metrics: {
+        improvement: '2.5% defect',
+        savings: 'Better quality',
+        roi: '6 months',
+      },
+      status: 'implemented',
+    },
+    {
+      id: 'rca',
+      title: 'Root Cause Analysis AI',
+      description:
+        'Automated problem diagnosis with AI-powered root cause identification and solution recommendations',
+      icon: AlertTriangle,
+      color: 'from-red-500 to-orange-500',
+      path: '/rca',
+      category: 'maintenance',
+      metrics: {
+        improvement: '40% faster',
+        savings: 'Quick resolution',
+        roi: '5 months',
+      },
+      status: 'implemented',
+    },
+    {
+      id: 'predictive',
+      title: 'Predictive Maintenance',
+      description:
+        'Machine learning models to predict equipment failures before they occur',
+      icon: Brain,
+      color: 'from-purple-500 to-indigo-500',
+      path: '/predictive',
+      category: 'maintenance',
+      metrics: {
+        improvement: '30% reduction',
+        savings: 'Less downtime',
+        roi: '8 months',
+      },
+      status: 'implemented',
+    },
+    {
+      id: 'knowledge',
+      title: 'AI Knowledge Assistant',
+      description:
+        'Intelligent document search and Q&A system powered by RAG (Retrieval Augmented Generation)',
+      icon: BookOpen,
+      color: 'from-teal-500 to-green-500',
+      path: '/knowledge',
+      category: 'optimization',
+      metrics: {
+        improvement: '10x faster',
+        savings: 'Quick answers',
+        roi: '3 months',
+      },
+      status: 'implemented',
+    },
+    {
+      id: 'oee-coaching',
+      title: 'OEE Coaching & Benchmarking',
+      description:
+        'AI-driven OEE analysis with personalized improvement recommendations and peer benchmarking',
+      icon: Trophy,
+      color: 'from-yellow-500 to-orange-500',
+      path: '/oee-coaching',
+      category: 'optimization',
+      metrics: {
+        improvement: '82.9% OEE',
+        savings: 'Plant improvement',
+        roi: '6 months',
+      },
+      status: 'implemented',
+    },
   ];
 
   const categories = [
     { id: 'all', label: 'All Scenarios' },
     { id: 'production', label: 'Production' },
     { id: 'planning', label: 'Planning' },
+    { id: 'maintenance', label: 'Maintenance' },
     { id: 'people', label: 'People' },
     { id: 'sustainability', label: 'Sustainability' },
     { id: 'optimization', label: 'Optimization' },
@@ -218,11 +321,11 @@ export function AIScenariosDashboard() {
         <h2 className="text-lg font-semibold mb-4">Implementation Impact</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600">7</div>
+            <div className="text-3xl font-bold text-purple-600">12</div>
             <div className="text-sm text-muted-foreground">AI Scenarios</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-green-600">15-25%</div>
+            <div className="text-3xl font-bold text-green-600">15-30%</div>
             <div className="text-sm text-muted-foreground">Avg Improvement</div>
           </div>
           <div className="text-center">

@@ -53,7 +53,12 @@ export function HistoricalChart({
     }));
   }, [data, xAxisKey]);
 
-  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
+  interface TooltipPayload {
+    value: number;
+    payload: Record<string, string | number>;
+  }
+
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-background border rounded-lg shadow-lg p-3">

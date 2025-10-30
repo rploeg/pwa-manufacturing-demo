@@ -6,6 +6,7 @@
 
 import { digitalTwin } from './twin';
 import { workOrderService } from '@/services/workOrderService';
+import type { TwinNode } from '../types';
 
 export interface AutonomousEvent {
   id: string;
@@ -148,7 +149,7 @@ class AutonomousMonitoringService {
   /**
    * Recursively check nodes
    */
-  private async checkNodeRecursive(node: any, location: string): Promise<void> {
+  private async checkNodeRecursive(node: TwinNode, location: string): Promise<void> {
     // Check current node
     await this.checkNode(node, location);
 
@@ -163,19 +164,19 @@ class AutonomousMonitoringService {
   /**
    * Check a single node for anomalies by examining its properties
    */
-  private async checkNode(node: any, location: string): Promise<void> {
+  private async checkNode(node: TwinNode, location: string): Promise<void> {
     // Get metrics from node properties
-    const tempProp = node.properties?.find((p: any) => p.key === 'temperature');
+    const tempProp = node.properties?.find((p) => p.key === 'temperature');
     if (tempProp && typeof tempProp.value === 'number') {
       await this.checkTemperatureAnomaly(node, location, tempProp.value, tempProp.unit || '°C');
     }
 
-    const speedProp = node.properties?.find((p: any) => p.key === 'speed');
+    const speedProp = node.properties?.find((p) => p.key === 'speed');
     if (speedProp && typeof speedProp.value === 'number') {
       await this.checkSpeedAnomaly(node, location, speedProp.value, speedProp.unit || 'RPM');
     }
 
-    const oeeProp = node.properties?.find((p: any) => p.key === 'oee');
+    const oeeProp = node.properties?.find((p) => p.key === 'oee');
     if (oeeProp && typeof oeeProp.value === 'number') {
       // Convert to decimal if it's a percentage
       const oeeValue = oeeProp.value > 1 ? oeeProp.value / 100 : oeeProp.value;
@@ -187,7 +188,7 @@ class AutonomousMonitoringService {
    * Check temperature anomaly and trigger actions
    */
   private async checkTemperatureAnomaly(
-    node: any,
+    node: TwinNode,
     location: string,
     value: number,
     unit: string
@@ -315,10 +316,10 @@ class AutonomousMonitoringService {
   }
 
   /**
-   * Check speed anomaly
+   * Check speed anomaly and suggest maintenance
    */
   private async checkSpeedAnomaly(
-    node: any,
+    node: TwinNode,
     location: string,
     value: number,
     unit: string
@@ -420,12 +421,12 @@ class AutonomousMonitoringService {
   /**
    * Check OEE anomaly
    */
-  private async checkOEEAnomaly(node: any, location: string, value: number): Promise<void> {
+  private async checkOEEAnomaly(node: TwinNode, location: string, value: number): Promise<void> {
     const { min } = this.config.anomalyThresholds.oee;
     const cooldownKey = `oee-${node.id}`;
 
     // Don't trigger OEE anomaly if line/equipment is stopped (status check)
-    const statusProp = node.properties?.find((p: any) => p.key === 'status');
+    const statusProp = node.properties?.find((p) => p.key === 'status');
     if (statusProp && statusProp.value === 'stopped') {
       return; // Skip OEE check for stopped equipment
     }
@@ -543,9 +544,11 @@ class AutonomousMonitoringService {
    * Simulate a test anomaly (for demo purposes)
    */
   simulateAnomaly(type: 'temperature' | 'speed' | 'oee'): void {
-    const mockNode = {
+    const mockNode: TwinNode = {
       id: 'test-node',
       name: 'Filler-3',
+      type: 'machine',
+      properties: [],
     };
     const location = 'Factory-1 > Line-B';
 

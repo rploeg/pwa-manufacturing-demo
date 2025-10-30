@@ -19,6 +19,8 @@ import { Markdown } from '@/components/ui/markdown';
 import { useFeatureFlags, type UserRole } from '@/contexts/FeatureFlagsContext';
 import { realtimeService, type RealtimeUpdate } from '@/services/realtimeService';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { GlobalSearch } from '@/components/ui/global-search';
+import { BookmarksPanel } from '@/components/ui/bookmarks-panel';
 
 interface Notification {
   id: string | number;
@@ -32,6 +34,7 @@ interface Notification {
 export function TopBar() {
   const { user } = useAuth();
   const { currentRole, setRole, applyRoleDefaults, flags, updateFlags } = useFeatureFlags();
+  const [showGlobalSearch, setShowGlobalSearch] = useState(false);
   const [showSearchDialog, setShowSearchDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResponse, setSearchResponse] = useState('');
@@ -79,6 +82,19 @@ export function TopBar() {
     });
 
     return unsubscribe;
+  }, []);
+
+  // Global search keyboard shortcut (Ctrl+K or Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowGlobalSearch(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const toggleDarkMode = () => {
@@ -150,6 +166,20 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         {/* Language Selector */}
         <LanguageSelector />
+
+        {/* Bookmarks */}
+        <BookmarksPanel />
+
+        {/* Global Search Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setShowGlobalSearch(true)}
+          title="Search (Ctrl+K)"
+          className="hidden md:flex"
+        >
+          <Search className="w-5 h-5" />
+        </Button>
 
         {/* Dark Mode Toggle */}
         <Button
@@ -311,6 +341,9 @@ export function TopBar() {
           </div>
         )}
       </div>
+
+      {/* Global Search Modal */}
+      <GlobalSearch isOpen={showGlobalSearch} onClose={() => setShowGlobalSearch(false)} />
     </header>
   );
 }

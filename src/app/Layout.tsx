@@ -4,6 +4,7 @@ import { BottomNav } from '@/components/navigation/BottomNav';
 import { DesktopNav } from '@/components/navigation/DesktopNav';
 import { TabletNav } from '@/components/navigation/TabletNav';
 import { TopBar } from '@/components/navigation/TopBar';
+import { OfflineIndicator } from '@/components/ui/offline-indicator';
 
 export function Layout() {
   const isPhone = useMediaQuery('(max-width: 640px)');
@@ -14,6 +15,9 @@ export function Layout() {
     <div className="h-screen w-screen overflow-hidden flex flex-col">
       {/* Top app bar (all devices) */}
       <TopBar />
+
+      {/* Offline indicator */}
+      <OfflineIndicator />
 
       {/* Main content area with navigation */}
       <div className="flex-1 flex overflow-hidden">

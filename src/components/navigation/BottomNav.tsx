@@ -1,67 +1,33 @@
 import { NavLink } from 'react-router-dom';
 import {
   Home,
-  MessageSquare,
-  Network,
-  Settings,
-  Calendar,
-  Trophy,
-  Clock,
-  Package,
+  Clipboard,
+  Box,
+  Wrench,
+  TrendingUp,
+  Sparkles,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { useFeatureFlags } from '@/contexts/FeatureFlagsContext';
-import { useLanguage } from '@/contexts/LanguageContext';
-import type { FeatureFlags } from '@/contexts/FeatureFlagsContext';
 
+// Mobile navigation shows only main groups for better UX
 const navItems: Array<{
   path: string;
   icon: typeof Home;
   labelKey: string;
-  featureFlag?: keyof FeatureFlags;
 }> = [
-  { path: '/home', icon: Home, labelKey: 'nav.home' },
-  { path: '/chat', icon: MessageSquare, labelKey: 'nav.agents', featureFlag: 'multiAgent' },
-  {
-    path: '/shift-handover',
-    icon: Clock,
-    labelKey: 'nav.shiftHandover',
-    featureFlag: 'shiftHandover',
-  },
-  {
-    path: '/performance',
-    icon: Trophy,
-    labelKey: 'nav.performance',
-    featureFlag: 'performanceDashboard',
-  },
-  {
-    path: '/traceability',
-    icon: Package,
-    labelKey: 'nav.traceability',
-    featureFlag: 'traceability',
-  },
-  { path: '/twin', icon: Network, labelKey: 'nav.digitalTwin', featureFlag: 'digitalTwin3D' },
-  {
-    path: '/planning',
-    icon: Calendar,
-    labelKey: 'nav.planning',
-    featureFlag: 'productionPlanning',
-  },
-  { path: '/settings', icon: Settings, labelKey: 'nav.settings' },
+  { path: '/home', icon: Home, labelKey: 'Home' },
+  { path: '/ai-scenarios', icon: Sparkles, labelKey: 'AI' },
+  { path: '/twin', icon: Clipboard, labelKey: 'Operations' },
+  { path: '/planning', icon: Box, labelKey: 'Production' },
+  { path: '/maintenance', icon: Wrench, labelKey: 'Maintenance' },
+  { path: '/performance', icon: TrendingUp, labelKey: 'Performance' },
 ];
 
 export function BottomNav() {
-  const { isFeatureEnabled } = useFeatureFlags();
-  const { t } = useLanguage();
-
-  const visibleNavItems = navItems.filter(
-    (item) => !item.featureFlag || isFeatureEnabled(item.featureFlag)
-  );
-
   return (
-    <nav className="border-t bg-background safe-area-bottom">
+    <nav className="border-t bg-background/95 backdrop-blur-lg safe-area-bottom">
       <div className="flex justify-around items-center h-16 px-2">
-        {visibleNavItems.map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
@@ -69,18 +35,18 @@ export function BottomNav() {
               to={item.path}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg touch-target flex-1 max-w-[80px] transition-colors',
+                  'flex flex-col items-center justify-center gap-1 px-2 py-2 rounded-lg touch-target flex-1 max-w-[80px] transition-all duration-200',
                   isActive
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary scale-110'
+                    : 'text-muted-foreground hover:text-foreground active:scale-95'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  <Icon className={cn('w-5 h-5', isActive && 'stroke-[2.5]')} />
-                  <span className="text-xs font-medium">
-                    {t(item.labelKey, item.labelKey.split('.')[1])}
+                  <Icon className={cn('w-5 h-5 transition-all', isActive && 'stroke-[2.5]')} />
+                  <span className={cn('text-[10px] font-medium transition-all', isActive && 'font-semibold')}>
+                    {item.labelKey}
                   </span>
                 </>
               )}
