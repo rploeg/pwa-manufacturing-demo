@@ -290,8 +290,21 @@ export const MaintenanceCostPage: React.FC = () => {
               </div>
 
               <div className="flex justify-end space-x-3 mt-4">
-                <Button variant="outline">Defer</Button>
-                <Button>Schedule Maintenance</Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    alert(`Deferred: ${decision.equipment} - ${decision.task}`);
+                  }}
+                >
+                  Defer
+                </Button>
+                <Button
+                  onClick={() => {
+                    alert(`Scheduled: ${decision.equipment} - ${decision.task}\nOptimal Date: ${decision.optimalDate?.toLocaleDateString() || 'TBD'}`);
+                  }}
+                >
+                  Schedule Maintenance
+                </Button>
               </div>
             </Card>
           ))}
